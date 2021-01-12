@@ -12,7 +12,7 @@ public interface VehicleRepository extends JpaRepository<Vehicles, String> {
     Vehicles findById(int id);
 
     @Query(value = "Select * from mezzo Where targa like:targa", nativeQuery = true)
-    List<Vehicles> selByTargaLike(@Param("targa") String targa);
+    Vehicles selByTargaLike(@Param("targa") String targa);
 
     @Query(value= "Select * from mezzo Where modello like:modello",  nativeQuery = true)
     List<Vehicles> selByModelloLike(@Param("modello") String modello);
@@ -21,6 +21,6 @@ public interface VehicleRepository extends JpaRepository<Vehicles, String> {
     List<Vehicles> selByCasaCostruttriceLike(@Param("casaCostruttrice") String casaCostruttrice);
 
     @Query(value= "Select * from mezzo Where annoImmatricolazione like:annoImmatricolazione",  nativeQuery = true)
-    Vehicles selByAnnoImmatricolazioneLike(@Param("annoImmatricolazione") String annoImmatricolazione);
+    List<Vehicles> selByAnnoImmatricolazioneLike(@Param("annoImmatricolazione") String annoImmatricolazione);
 
 }
