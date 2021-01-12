@@ -24,8 +24,11 @@ public interface UserRepository extends JpaRepository<Users, String> {
     List<Users> selByDateLike(@Param("dataNascita") String dataNascita);
 
     @Query(value= "Select * from utente Where email like:email",  nativeQuery = true)
-    List<Users> selByEmailLike(@Param("email") String email);
+    Users selByEmailLike(@Param("email") String email);
 
     @Query(value= "Select * from utente Where username like:username",  nativeQuery = true)
     Users selByUsernameLike(@Param("username") String username);
+
+    @Query(value= "Select * from utente Where password like:password",  nativeQuery = true)
+    Users selByPasswordLike(@Param("password") String password);
 }
