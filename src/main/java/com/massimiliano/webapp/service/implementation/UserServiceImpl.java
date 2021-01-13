@@ -43,11 +43,6 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(Users);
     }
 
-    // @Override
-    // public Users validate(String username, String password) {
-    // return userRepository.validate(username, password);
-    // }
-
     @Override
     public List<Users> trovaPerNome(String nome) {
         return userRepository.selByNomeLike(nome);

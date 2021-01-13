@@ -31,4 +31,5 @@ public interface UserRepository extends JpaRepository<Users, String> {
 
     @Query(value= "Select * from utente Where password like:password",  nativeQuery = true)
     Users selByPasswordLike(@Param("password") String password);
+
 }

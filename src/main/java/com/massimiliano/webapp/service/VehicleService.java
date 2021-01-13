@@ -8,8 +8,6 @@ public interface VehicleService {
 
    public void Salva(Vehicles veicolo);
 
-//    public void Aggiorna(Vehicles veicolo);
-
    public void Elimina(Vehicles veicolo);
 
    public  Vehicles trovaById(int id);

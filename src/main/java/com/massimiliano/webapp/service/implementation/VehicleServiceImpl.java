@@ -18,11 +18,6 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleRepository.save(veicolo);
     }
 
-    // @Override
-    // public void Aggiorna(Vehicles veicolo) {
-    //     vehicleRepository.Aggiorna(veicolo);
-    // }
-
     @Override
     public void Elimina(Vehicles veicolo) {
         vehicleRepository.delete(veicolo);
