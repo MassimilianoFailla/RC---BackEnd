@@ -1,4 +1,4 @@
-package com.massimiliano.webapp.controller;
+package com.massimiliano.webapp.exception;
 
 public class NotFoundException extends Exception {
 

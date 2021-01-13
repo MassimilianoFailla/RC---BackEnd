@@ -2,7 +2,6 @@ package com.massimiliano.webapp.service;
 
 import java.util.List;
 
-import com.massimiliano.webapp.dtos.UserDTO;
 import com.massimiliano.webapp.entity.Users;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +9,9 @@ import org.springframework.stereotype.Service;
 public interface UserService {
 
     // inserire le operazioni da eseguire
-    public List<Users> selezionaUtenti();
+    public Iterable<Users> selezionaUtenti();
 
-    public UserDTO selezionaById(int id);
+    public Users selezionaById(int id);
 
     public List<Users> selezionaUtentiByRole(String role);
 

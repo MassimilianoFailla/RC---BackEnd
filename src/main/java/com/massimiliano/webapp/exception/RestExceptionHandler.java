@@ -1,6 +1,4 @@
-package com.massimiliano.webapp.controller;
-
-import com.massimiliano.webapp.exception.ErrorResponse;
+package com.massimiliano.webapp.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

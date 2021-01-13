@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users selezionaById(int id) {
-        Users Users = userRepository.findById(id);
-        return Users;
+        Users user = userRepository.findByIdLike(id);
+        return user;
     }
 
     @Override
