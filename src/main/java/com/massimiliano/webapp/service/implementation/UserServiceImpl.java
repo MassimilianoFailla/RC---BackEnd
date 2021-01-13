@@ -33,17 +33,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void Elimina(int id) {
-        userRepository.deleteById(id);
-    }
-
-    @Override
     public UserDTO selezionaById(int id) {
 
         Users user = userRepository.findByIdLike(id);
         UserDTO userDto = modelMapper.map(user, UserDTO.class);
 
         return userDto;
+    }
+
+    @Override
+    public Users selezionaById2(int id) {
+
+        return userRepository.findByIdLike(id);
     }
 
     @Override
@@ -129,11 +130,16 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
+    @Override
+	@Transactional
+	public void DelUser(Users user) {
+		userRepository.delete(user);
+	}
 
     @Override
 	@Transactional
 	public void InsUser(Users user){
-        
+
 		userRepository.save(user);
 	}
 

@@ -13,9 +13,13 @@ public interface UserService {
 
     public void Salva(Users utente);
 
-    public void Elimina(int id);
+	public void InsUser(Users user);
+
+	public void DelUser(Users user);
 
     public Iterable<Users> selezionaUtenti();
+
+    public Users selezionaById2(int id);
 
     public UserDTO selezionaById(int id);
 
@@ -32,7 +36,5 @@ public interface UserService {
     public UserDTO trovaPerUsername(String username);
 
     public UserDTO trovaPerPassword(String password);
-
-	public void InsUser(Users user);
 
 }

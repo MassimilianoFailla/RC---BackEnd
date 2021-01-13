@@ -41,6 +41,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public Reservations trovaReservationsPerId2(int id) {
+
+        return reservationRepository.findById(id);    
+    }
+
+    @Override
     public List<Reservations> trovaPrenotazioniPerIdUtente(int idUtente) {
         return reservationRepository.selByIdUserLike(idUtente);
     }
@@ -50,4 +56,16 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findAll();
     }
     
+    @Override
+	@Transactional
+	public void DelReservation(Reservations prenotazione) {
+		reservationRepository.delete(prenotazione);
+	}
+
+    @Override
+	@Transactional
+	public void InsReservation(Reservations prenotazione){
+
+		reservationRepository.save(prenotazione);
+	}
 }

@@ -15,7 +15,13 @@ public interface VehicleService {
 
    public void Elimina(Vehicles veicolo);
 
+   public void InsVehicle(Vehicles veicolo);
+
+	public void DelVehicle(Vehicles veicolo);
+
    public VehicleDTO trovaById(int id);
+
+   public Vehicles trovaById2(int id);
 
    public VehicleDTO trovaPerTarga(String targa);
 

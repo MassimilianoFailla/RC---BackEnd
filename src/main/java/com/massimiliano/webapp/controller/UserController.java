@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.massimiliano.webapp.dtos.InfoMsg;
 import com.massimiliano.webapp.dtos.UserDTO;
 import com.massimiliano.webapp.entity.Users;
 import com.massimiliano.webapp.exception.BindingException;
@@ -34,13 +37,14 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    // ridare un http status alla fine di ogni metodo in modo tale da avere una risposta
+    // ridare un http status alla fine di ogni metodo in modo tale da avere una
+    // risposta
 
     @Autowired
     private UserService userService;
 
     // @Autowired
-	// private ResourceBundleMessageSource errMessage;
+    // private ResourceBundleMessageSource errMessage;
 
     // creating a get mapping that retrieves all the users detail from the database
     @GetMapping("/views")
@@ -49,7 +53,7 @@ public class UserController {
         Iterable<Users> listaUtenti = userService.selezionaUtenti();
         logger.info("Visualizzazione Utenti");
         return listaUtenti;
-        
+
     }
 
     // trovare un utente per id
@@ -59,132 +63,118 @@ public class UserController {
         UserDTO user = userService.selezionaById(id);
         return new ResponseEntity<UserDTO>(user, new HttpHeaders(), HttpStatus.OK);
     }
-    
+
     // trovare un utente per role
     @GetMapping("/user-role/{role}")
     public ResponseEntity<List<UserDTO>> geUserByRole(@PathVariable("role") String role) throws NotFoundException {
 
         List<UserDTO> userList = userService.selezionaUtentiByRole(role);
- 
+
         return new ResponseEntity<List<UserDTO>>(userList, new HttpHeaders(), HttpStatus.OK);
     }
 
-     // trovare un utente per nome
-     @GetMapping(value = "/user-name/{nome}", produces = "application/json")
-     public ResponseEntity<List<UserDTO>> geUserByName(@PathVariable("nome") String nome) throws NotFoundException {
- 
+    // trovare un utente per nome
+    @GetMapping(value = "/user-name/{nome}", produces = "application/json")
+    public ResponseEntity<List<UserDTO>> geUserByName(@PathVariable("nome") String nome) throws NotFoundException {
+
         logger.info("****** Otteniamo l'utente con nome " + nome + " *******");
-        
-         List<UserDTO> userList = userService.trovaPerNome(nome.toUpperCase() +"%");
-  
-         if(userList == null){
-             String errMsg = String.format("Non è stato trovato alcun utente con questo nome -> %s", nome);
-             logger.warn(errMsg);
-             throw new NotFoundException(errMsg);
+
+        List<UserDTO> userList = userService.trovaPerNome(nome.toUpperCase() + "%");
+
+        if (userList == null) {
+            String errMsg = String.format("Non è stato trovato alcun utente con questo nome -> %s", nome);
+            logger.warn(errMsg);
+            throw new NotFoundException(errMsg);
+        } else
+            return new ResponseEntity<List<UserDTO>>(userList, HttpStatus.OK);
+    }
+
+    // ------------------- INSERIMENTO NUOVO UTENTE
+    // ------------------------------------
+
+    @PostMapping(value = "/inserisci-user")
+    public ResponseEntity<?> createArt(@Valid @RequestBody Users user, BindingResult bindingResult)
+            throws BindingException, DuplicateException {
+        logger.info("Salvo l'utente con id " + user.getId());
+
+        // controllo validità dati articolo
+        // if (bindingResult.hasErrors()){
+        // // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
+        // LocaleContextHolder.getLocale());
+        // logger.warn(MsgErr);
+        // throw new BindingException(MsgErr);
+        // }
+
+        // Disabilitare se si vuole gestire anche la modifica
+        UserDTO checkArt = userService.selezionaById(user.getId());
+
+        if (checkArt != null) {
+            String MsgErr = String.format("Utente %s presente! " + "Impossibile utilizzare il metodo POST",
+                    user.getId());
+            logger.warn(MsgErr);
+            throw new DuplicateException(MsgErr);
         }
-        else 
-         return new ResponseEntity<List<UserDTO>>(userList, HttpStatus.OK);
-     }
 
-     	// ------------------- INSERIMENTO NUOVO UTENTE ------------------------------------
+        userService.InsUser(user);
 
-     @PostMapping(value = "/inserisci-user")
-	public ResponseEntity<?> createArt(@Valid @RequestBody Users user, BindingResult bindingResult) throws BindingException, DuplicateException {
-		logger.info("Salvo l'utente con id " + user.getId());
-		
-		//controllo validità dati articolo
-		// if (bindingResult.hasErrors()){
-		// 	// String MsgErr = errMessage.getMessage(bindingResult.getFieldError(), LocaleContextHolder.getLocale());
-		// 	logger.warn(MsgErr);
-		// 	throw new BindingException(MsgErr);
-		// }
-		
-		//Disabilitare se si vuole gestire anche la modifica 
-		UserDTO checkArt =  userService.selezionaById(user.getId());
-		
-		if (checkArt != null) {
-			String MsgErr = String.format("Utente %s presente! " + "Impossibile utilizzare il metodo POST", user.getId());	
-			logger.warn(MsgErr);
-			throw new DuplicateException(MsgErr);
-		}
-		
-		userService.InsUser(user);
-		
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectNode responseNode = mapper.createObjectNode();
-		
-		responseNode.put("code", HttpStatus.OK.toString());
-		responseNode.put("message", String.format("Inserimento Utente %s eseguito con successo", user.getId()));
-		
-		return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
-	}
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode responseNode = mapper.createObjectNode();
 
-	// ------------------- MODIFICA UTENTE ------------------------------------
-	
-	// @RequestMapping(value = "/modifica", method = RequestMethod.PUT)
-	// public ResponseEntity<InfoMsg> updateArt(@Valid @RequestBody Articoli articolo, BindingResult bindingResult)
-	// 		throws BindingException,NotFoundException 
-	// {
-	// 	logger.info("Modifichiamo l'articolo con codice " + articolo.getCodArt());
-		
-	// 	if (bindingResult.hasErrors())
-	// 	{
-	// 		String MsgErr = errMessage.getMessage(bindingResult.getFieldError(), LocaleContextHolder.getLocale());
-			
-	// 		logger.warn(MsgErr);
+        responseNode.put("code", HttpStatus.OK.toString());
+        responseNode.put("message", String.format("Inserimento Utente %s eseguito con successo", user.getId()));
 
-	// 		throw new BindingException(MsgErr);
-	// 	}
-		
-	// 	ArticoliDto checkArt =  articoliService.SelByCodArt(articolo.getCodArt());
+        return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
+    }
 
-	// 	if (checkArt == null)
-	// 	{
-	// 		String MsgErr = String.format("Articolo %s non presente in anagrafica! "
-	// 				+ "Impossibile utilizzare il metodo PUT", articolo.getCodArt());
-			
-	// 		logger.warn(MsgErr);
-			
-	// 		throw new NotFoundException(MsgErr);
-	// 	}
-		
-	// 	articoliService.InsArticolo(articolo);
-		
-	// 	String code = HttpStatus.OK.toString();
-	// 	String message = String.format("Modifica Articolo %s Eseguita Con Successo", articolo.getCodArt());
-		
-	// 	return new ResponseEntity<InfoMsg>(new InfoMsg(code, message), HttpStatus.CREATED);
-	// }
-	
-    // // ------------------- ELIMINAZIONE UTENTE ------------------------------------
-    
-	// @RequestMapping(value = "/elimina/{codart}", method = RequestMethod.DELETE, produces = "application/json" )
-	// public ResponseEntity<?> deleteArt(@PathVariable("codart") String CodArt)
-	// 	throws NotFoundException 
-	// {
-	// 	logger.info("Eliminiamo l'articolo con codice " + CodArt);
-		
-	// 	Articoli articolo = articoliService.SelByCodArt2(CodArt);
-		
-	// 	if (articolo == null)
-	// 	{
-	// 		String MsgErr = String.format("Articolo %s non presente in anagrafica! ",CodArt);
-			
-	// 		logger.warn(MsgErr);
-			
-	// 		throw new NotFoundException(MsgErr);
-	// 	}
-		
-	// 	articoliService.DelArticolo(articolo);
-		
-	// 	ObjectMapper mapper = new ObjectMapper();
-	// 	ObjectNode responseNode = mapper.createObjectNode();
-		
-	// 	responseNode.put("code", HttpStatus.OK.toString());
-	// 	responseNode.put("message", "Eliminazione Articolo " + CodArt + " Eseguita Con Successo");
-		
-	// 	return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
-				
-	// }
-	
+    // ------------------- MODIFICA UTENTE ------------------------------------
+
+    @RequestMapping(value = "/modifica", method = RequestMethod.PUT)
+    public ResponseEntity<InfoMsg> updateUsr(@Valid @RequestBody Users user, BindingResult bindingResult)
+            throws BindingException, NotFoundException {
+        logger.info("Modifico l'utente con id " + user.getId());
+
+        // if (bindingResult.hasErrors()) {
+        // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
+        // LocaleContextHolder.getLocale());
+        // logger.warn(MsgErr);
+        // throw new BindingException(MsgErr);
+        // }
+
+        UserDTO checkArt = userService.selezionaById(user.getId());
+
+        if (checkArt == null) {
+            String MsgErr = String.format(
+                    "L'utente con id %d non è presente! " + "Impossibile utilizzare il metodo PUT", user.getId());
+            logger.warn(MsgErr);
+            throw new NotFoundException(MsgErr);
+        }
+
+        userService.InsUser(user);
+        String code = HttpStatus.OK.toString();
+        String message = String.format("Modifica user con id %d Eseguita Con Successo", user.getId());
+        return new ResponseEntity<InfoMsg>(new InfoMsg(code, message), HttpStatus.CREATED);
+    }
+
+    // ------------------- ELIMINAZIONE UTENTE ------------------------------------
+
+    @RequestMapping(value = "/elimina/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    public ResponseEntity<?> deleteUSr(@PathVariable("id") int id) throws NotFoundException {
+        logger.info("Elimino l'utente con id " + id);
+        Users user = userService.selezionaById2(id);
+
+        if (user == null) {
+            String MsgErr = String.format("L'utente %d non presente! ", id);
+            logger.warn(MsgErr);
+            throw new NotFoundException(MsgErr);
+        }
+
+        userService.DelUser(user);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode responseNode = mapper.createObjectNode();
+        responseNode.put("code", HttpStatus.OK.toString());
+        responseNode.put("message", "Eliminazione user con id -> " + id + " Eseguita Con Successo!");
+        return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
+
+    }
+
 }

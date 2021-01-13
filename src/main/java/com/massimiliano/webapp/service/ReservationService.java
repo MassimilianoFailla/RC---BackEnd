@@ -13,7 +13,13 @@ public interface ReservationService {
 
     public void Elimina(Reservations prenotazione);
 
+    public void InsReservation(Reservations prenotazione);
+
+    public void DelReservation(Reservations prenotazione);
+    
     public ReservationDTO trovaReservationsPerId(int id);
+
+    public Reservations trovaReservationsPerId2(int id);
 
     public List<Reservations> trovaPrenotazioniPerIdUtente(int idUtente);
 

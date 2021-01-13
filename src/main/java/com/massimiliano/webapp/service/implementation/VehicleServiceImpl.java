@@ -43,6 +43,12 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    public Vehicles trovaById2(int id) {
+
+        return vehicleRepository.findById(id);    
+    }
+
+    @Override
     public VehicleDTO trovaPerTarga(String targa) {
 
         Vehicles vehicle = vehicleRepository.selByTargaLike(targa);
@@ -70,4 +76,18 @@ public class VehicleServiceImpl implements VehicleService {
     public List<Vehicles> trovaPerAnnoImmatricolazione(String annoImmatricolazione) {
         return vehicleRepository.selByAnnoImmatricolazioneLike(annoImmatricolazione);
     }
+ 
+    @Override
+	@Transactional
+	public void DelVehicle(Vehicles veicolo) {
+		vehicleRepository.delete(veicolo);
+	}
+
+    @Override
+	@Transactional
+	public void InsVehicle(Vehicles veicolo){
+
+		vehicleRepository.save(veicolo);
+	}
+
 }
