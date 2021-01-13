@@ -11,6 +11,8 @@ public interface UserRepository extends JpaRepository<Users, String> {
 
     Users findById(int id);
 
+    Users deleteById(int id);
+
     @Query(value = "Select * from utente Where role like:role", nativeQuery = true)
     List<Users> selByRoleLike(@Param("role") String role);
 

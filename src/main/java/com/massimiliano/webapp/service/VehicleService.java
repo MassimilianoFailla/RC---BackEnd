@@ -10,18 +10,16 @@ public interface VehicleService {
 
    public void Elimina(Vehicles veicolo);
 
-   public  Vehicles trovaById(int id);
+   public Vehicles trovaById(int id);
 
    public Vehicles trovaPerTarga(String targa);
 
    public List<Vehicles> trovaMezzi();
 
-    //metodi da implementare nel filtraggio
+   public List<Vehicles> trovaPerModello(String modello);
 
-    public List<Vehicles> trovaPerModello(String modello);
+   public List<Vehicles> trovaPerCasaCostruttrice(String casaCostruttrice);
 
-    public List<Vehicles> trovaPerCasaCostruttrice(String casaCostruttrice);
-
-    public  List<Vehicles> trovaPerAnnoImmatricolazione(String annoImmatricolazione);
+   public List<Vehicles> trovaPerAnnoImmatricolazione(String annoImmatricolazione);
 
 }

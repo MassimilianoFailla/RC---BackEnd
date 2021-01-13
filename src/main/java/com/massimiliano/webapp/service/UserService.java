@@ -2,6 +2,7 @@ package com.massimiliano.webapp.service;
 
 import java.util.List;
 
+import com.massimiliano.webapp.dtos.UserDTO;
 import com.massimiliano.webapp.entity.Users;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +12,13 @@ public interface UserService {
     // inserire le operazioni da eseguire
     public List<Users> selezionaUtenti();
 
-    public Users selezionaById(int id);
+    public UserDTO selezionaById(int id);
 
     public List<Users> selezionaUtentiByRole(String role);
 
     public void Salva(Users utente);
 
-    public void Elimina(Users utente);
-
-    // public Users validate(String username, String password);
+    public void Elimina(int id);
 
     // metodi da implementare per il filtraggio --------
 

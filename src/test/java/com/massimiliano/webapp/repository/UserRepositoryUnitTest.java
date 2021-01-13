@@ -2,6 +2,8 @@ package com.massimiliano.webapp.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import com.massimiliano.webapp.Application;
+import com.massimiliano.webapp.entity.Users;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +18,7 @@ public class UserRepositoryUnitTest {
 
     @Test
     public void TestfindByIdLike(){
-        assertThat(userRepository.findById(1));
+        assertThat(userRepository.findById(1)).extracting(Users::getNome).isEqualTo("Massimiliano");
     }
 
     @Test
