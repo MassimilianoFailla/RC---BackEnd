@@ -2,6 +2,7 @@ package com.massimiliano.webapp.service;
 
 import java.util.List;
 
+import com.massimiliano.webapp.dtos.UserDTO;
 import com.massimiliano.webapp.entity.Users;
 import org.springframework.stereotype.Service;
 
@@ -9,30 +10,27 @@ import org.springframework.stereotype.Service;
 public interface UserService {
 
     // inserire le operazioni da eseguire
-    public Iterable<Users> selezionaUtenti();
-
-    public Users selezionaById(int id);
-
-    public List<Users> selezionaUtentiByRole(String role);
 
     public void Salva(Users utente);
 
     public void Elimina(int id);
 
-    // metodi da implementare per il filtraggio --------
+    public Iterable<Users> selezionaUtenti();
 
-    public List<Users> trovaPerNome(String nome);
+    public UserDTO selezionaById(int id);
 
-    public List<Users> trovaPerCognome(String cognome);
+    public List<UserDTO> selezionaUtentiByRole(String role);
 
-    public Users trovaPerEmail(String email);
+    public List<UserDTO> trovaPerNome(String nome);
 
-    public  List<Users> trovaPerAnnoNascita(String annoNascita);
+    public List<UserDTO> trovaPerCognome(String cognome);
 
-    // -------------------------------------------------
+    public UserDTO trovaPerEmail(String email);
 
-    public Users trovaPerUsername(String username);
+    public  List<UserDTO> trovaPerAnnoNascita(String annoNascita);
 
-    public Users trovaPerPassword(String password);
+    public UserDTO trovaPerUsername(String username);
+
+    public UserDTO trovaPerPassword(String password);
 
 }

@@ -1,13 +1,20 @@
 package com.massimiliano.webapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+import com.massimiliano.webapp.dtos.UserDTO;
 import com.massimiliano.webapp.entity.Users;
+import com.massimiliano.webapp.exception.NotFoundException;
 import com.massimiliano.webapp.service.UserService;
 
 import org.slf4j.Logger;
@@ -15,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 // restController
 @RestController
-@RequestMapping("users")
+@RequestMapping("api/users")
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -25,8 +32,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // @Autowired
+    // private ModelMapper modelMapper;
+
+    @ModelAttribute("Utente")
+    public Users getUtente() {
+        return new Users();
+    }
+
     // creating a get mapping that retrieves all the users detail from the database
-    @GetMapping("/users")
+    @GetMapping("/views")
     private Iterable<Users> getListaUtenti() {
         // metodo findAll di userServiceImp
         Iterable<Users> listaUtenti = userService.selezionaUtenti();
@@ -35,26 +50,37 @@ public class UserController {
         
     }
 
-    // @GetMapping("/users/{id}")
-    // public ResponseEntity<UserDTO> userById(@PathVariable("idUtente") int idUtente) throws NotFoundException {
+    // trovare un utente per id
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserDTO> geUserById(@PathVariable("id") int id) throws NotFoundException {
+        logger.info("Visualizzazione utente con id -> %d", +id);
+        UserDTO user = userService.selezionaById(id);
+        return new ResponseEntity<UserDTO>(user, new HttpHeaders(), HttpStatus.OK);
+    }
+    
+    // trovare un utente per role
+    @GetMapping("/users/{role}")
+    public ResponseEntity<List<UserDTO>> geUserByRole(@PathVariable("role") String role) throws NotFoundException {
 
-    //     logger.info("Otteniamo l'utente con id " + idUtente + " *******");
-	// 	Users user = userService.selezionaById(idUtente);
-		
-	// 	if (user == null){
-	// 		String ErrMsg = String.format("L'utente con id %d non è stato trovato!", idUtente);
-    //         logger.warn(ErrMsg);
-    //         throw new NotFoundException(ErrMsg);
-	// 	}
-	// 	// return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
-	// }
-
-    // creating a delete mapping that deletes a specified user
-    @DeleteMapping("/users/{id}")
-    private void deleteUser(@PathVariable("idUtente") int idUtente) {
-        userService.Elimina(idUtente);
+        List<UserDTO> userList = userService.selezionaUtentiByRole(role);
+ 
+        return new ResponseEntity<List<UserDTO>>(userList, new HttpHeaders(), HttpStatus.OK);
     }
 
-
-
+     // trovare un utente per nome
+     @GetMapping(value = "/users/{nome}", produces = "application/json")
+     public ResponseEntity<List<UserDTO>> geUserByName(@PathVariable("nome") String nome) throws NotFoundException {
+ 
+        logger.info("****** Otteniamo l'utente con nome " + nome + " *******");
+        
+         List<UserDTO> userList = userService.trovaPerNome(nome.toUpperCase() +"%");
+  
+         if(userList == null){
+             String errMsg = String.format("Non è stato trovato alcun utente con questo nome -> %s", nome);
+             logger.warn(errMsg);
+             throw new NotFoundException(errMsg);
+        }
+        else 
+         return new ResponseEntity<List<UserDTO>>(userList, HttpStatus.OK);
+     }
 }

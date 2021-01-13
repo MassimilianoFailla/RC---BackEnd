@@ -2,9 +2,11 @@ package com.massimiliano.webapp.service.implementation;
 
 import java.util.List;
 
+import com.massimiliano.webapp.dtos.VehicleDTO;
 import com.massimiliano.webapp.entity.Vehicles;
 import com.massimiliano.webapp.repository.VehicleRepository;
 import com.massimiliano.webapp.service.VehicleService;
+import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,6 +14,9 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Autowired
     VehicleRepository vehicleRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public void Salva(Vehicles veicolo) {
@@ -24,13 +29,22 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Vehicles trovaById(int id) {
-        return vehicleRepository.findById(id);
+    public VehicleDTO trovaById(int id) {
+
+        Vehicles vehicle = vehicleRepository.findById(id);
+        VehicleDTO vehicleDto = modelMapper.map(vehicle, VehicleDTO.class);
+
+        return vehicleDto;    
+    
     }
 
     @Override
-    public Vehicles trovaPerTarga(String targa) {
-        return vehicleRepository.selByTargaLike(targa);
+    public VehicleDTO trovaPerTarga(String targa) {
+
+        Vehicles vehicle = vehicleRepository.selByTargaLike(targa);
+        VehicleDTO vehicleDto = modelMapper.map(vehicle, VehicleDTO.class);
+
+        return vehicleDto;    
     }
 
     @Override

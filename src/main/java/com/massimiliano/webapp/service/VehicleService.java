@@ -2,19 +2,20 @@ package com.massimiliano.webapp.service;
 
 import java.util.List;
 
+import com.massimiliano.webapp.dtos.VehicleDTO;
 import com.massimiliano.webapp.entity.Vehicles;
 
 public interface VehicleService {
+
+   public Iterable<Vehicles> trovaMezzi();
 
    public void Salva(Vehicles veicolo);
 
    public void Elimina(Vehicles veicolo);
 
-   public Vehicles trovaById(int id);
+   public VehicleDTO trovaById(int id);
 
-   public Vehicles trovaPerTarga(String targa);
-
-   public List<Vehicles> trovaMezzi();
+   public VehicleDTO trovaPerTarga(String targa);
 
    public List<Vehicles> trovaPerModello(String modello);
 
