@@ -57,7 +57,7 @@ public class UserController {
     }
 
     // trovare un utente per id
-    @GetMapping("/user-id/{id}")
+    @GetMapping(value = "/user-id/{id}", produces = "application/json")
     public ResponseEntity<UserDTO> geUserById(@PathVariable("id") int id) throws NotFoundException {
         logger.info("Visualizzazione utente con id -> %d", +id);
         UserDTO user = userService.selezionaById(id);
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     // trovare un utente per role
-    @GetMapping("/user-role/{role}")
+    @GetMapping(value = "/user-role/{role}", produces="application/json")
     public ResponseEntity<List<UserDTO>> geUserByRole(@PathVariable("role") String role) throws NotFoundException {
 
         List<UserDTO> userList = userService.selezionaUtentiByRole(role);
@@ -89,9 +89,7 @@ public class UserController {
             return new ResponseEntity<List<UserDTO>>(userList, HttpStatus.OK);
     }
 
-    // ------------------- INSERIMENTO NUOVO UTENTE
-    // ------------------------------------
-
+    // inserimento
     @PostMapping(value = "/inserisci-user")
     public ResponseEntity<?> createArt(@Valid @RequestBody Users user, BindingResult bindingResult)
             throws BindingException, DuplicateException {
@@ -125,9 +123,9 @@ public class UserController {
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    // ------------------- MODIFICA UTENTE ------------------------------------
 
-    @RequestMapping(value = "/modifica", method = RequestMethod.PUT)
+    // modifica
+    @RequestMapping(value = "/modifica", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<InfoMsg> updateUsr(@Valid @RequestBody Users user, BindingResult bindingResult)
             throws BindingException, NotFoundException {
         logger.info("Modifico l'utente con id " + user.getId());
@@ -154,8 +152,7 @@ public class UserController {
         return new ResponseEntity<InfoMsg>(new InfoMsg(code, message), HttpStatus.CREATED);
     }
 
-    // ------------------- ELIMINAZIONE UTENTE ------------------------------------
-
+    // eliminazione
     @RequestMapping(value = "/elimina/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<?> deleteUSr(@PathVariable("id") int id) throws NotFoundException {
         logger.info("Elimino l'utente con id " + id);
@@ -173,7 +170,6 @@ public class UserController {
         responseNode.put("code", HttpStatus.OK.toString());
         responseNode.put("message", "Eliminazione user con id -> " + id + " Eseguita Con Successo!");
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
-
     }
 
 }
