@@ -129,4 +129,12 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
+
+    @Override
+	@Transactional
+	public void InsUser(Users user){
+        
+		userRepository.save(user);
+	}
+
 }

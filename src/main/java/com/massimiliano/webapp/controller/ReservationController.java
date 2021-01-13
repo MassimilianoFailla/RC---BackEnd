@@ -24,7 +24,6 @@ public class ReservationController {
 private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
     // ridare un http status alla fine di ogni metodo in modo tale da avere una risposta
-
     @Autowired
     private ReservationService reservationService;
 

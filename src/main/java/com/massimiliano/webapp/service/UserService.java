@@ -33,4 +33,6 @@ public interface UserService {
 
     public UserDTO trovaPerPassword(String password);
 
+	public void InsUser(Users user);
+
 }
