@@ -1,15 +1,25 @@
 package com.massimiliano.webapp.service.implementation;
 
 import java.util.List;
+
+import com.massimiliano.webapp.dtos.ReservationDTO;
 import com.massimiliano.webapp.entity.Reservations;
 import com.massimiliano.webapp.repository.ReservationRepository;
 import com.massimiliano.webapp.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
 
+@Service // notazione di servizio
+@Transactional() // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione   
 public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     ReservationRepository reservationRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public void Salva(Reservations prenotazione) {
@@ -22,8 +32,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservations trovaReservationsPerId(int id) {
-        return reservationRepository.findById(id);
+    public ReservationDTO trovaReservationsPerId(int id) {
+
+        Reservations reservation = reservationRepository.findById(id);
+        ReservationDTO reservationDto = modelMapper.map(reservation, ReservationDTO.class);
+
+        return reservationDto;    
     }
 
     @Override

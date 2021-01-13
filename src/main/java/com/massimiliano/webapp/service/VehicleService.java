@@ -1,10 +1,12 @@
 package com.massimiliano.webapp.service;
 
 import java.util.List;
-
 import com.massimiliano.webapp.dtos.VehicleDTO;
 import com.massimiliano.webapp.entity.Vehicles;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface VehicleService {
 
    public Iterable<Vehicles> trovaMezzi();

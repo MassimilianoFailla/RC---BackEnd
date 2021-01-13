@@ -7,9 +7,13 @@ import com.massimiliano.webapp.entity.Vehicles;
 import com.massimiliano.webapp.repository.VehicleRepository;
 import com.massimiliano.webapp.service.VehicleService;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Service // notazione di servizio
+@Transactional() // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione
 public class VehicleServiceImpl implements VehicleService {
 
     @Autowired

@@ -1,6 +1,8 @@
 package com.massimiliano.webapp.service;
 
 import java.util.List;
+
+import com.massimiliano.webapp.dtos.ReservationDTO;
 import com.massimiliano.webapp.entity.Reservations;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ public interface ReservationService {
 
     public void Elimina(Reservations prenotazione);
 
-    public Reservations trovaReservationsPerId(int id);
+    public ReservationDTO trovaReservationsPerId(int id);
 
     public List<Reservations> trovaPrenotazioniPerIdUtente(int idUtente);
 

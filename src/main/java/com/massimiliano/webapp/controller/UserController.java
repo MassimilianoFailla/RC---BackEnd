@@ -32,9 +32,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // @Autowired
-    // private ModelMapper modelMapper;
-
     @ModelAttribute("Utente")
     public Users getUtente() {
         return new Users();
@@ -51,7 +48,7 @@ public class UserController {
     }
 
     // trovare un utente per id
-    @GetMapping("/users/{id}")
+    @GetMapping("/user-id/{id}")
     public ResponseEntity<UserDTO> geUserById(@PathVariable("id") int id) throws NotFoundException {
         logger.info("Visualizzazione utente con id -> %d", +id);
         UserDTO user = userService.selezionaById(id);
@@ -59,7 +56,7 @@ public class UserController {
     }
     
     // trovare un utente per role
-    @GetMapping("/users/{role}")
+    @GetMapping("/user-role/{role}")
     public ResponseEntity<List<UserDTO>> geUserByRole(@PathVariable("role") String role) throws NotFoundException {
 
         List<UserDTO> userList = userService.selezionaUtentiByRole(role);
@@ -68,7 +65,7 @@ public class UserController {
     }
 
      // trovare un utente per nome
-     @GetMapping(value = "/users/{nome}", produces = "application/json")
+     @GetMapping(value = "/user-name/{nome}", produces = "application/json")
      public ResponseEntity<List<UserDTO>> geUserByName(@PathVariable("nome") String nome) throws NotFoundException {
  
         logger.info("****** Otteniamo l'utente con nome " + nome + " *******");

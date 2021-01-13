@@ -1,6 +1,7 @@
 package com.massimiliano.webapp.service.implementation;
 
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import com.massimiliano.webapp.dtos.UserDTO;
@@ -10,11 +11,9 @@ import com.massimiliano.webapp.service.UserService;
 import org.modelmapper.ModelMapper;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service // notazione di servizio
-@Transactional() // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione
-                 
+@Transactional() // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione   
 public class UserServiceImpl implements UserService {
 
     @Autowired

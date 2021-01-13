@@ -1,7 +1,5 @@
 package com.massimiliano.webapp.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +14,8 @@ import com.massimiliano.webapp.entity.Vehicles;
 import com.massimiliano.webapp.exception.NotFoundException;
 import com.massimiliano.webapp.service.VehicleService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 // restController
 @RestController
 @RequestMapping("api/vehicles")
@@ -44,8 +44,8 @@ public class VehicleController {
 
     }
 
-    // trovare un utente per id
-    @GetMapping("/vehicles/{id}")
+    // trovare un veicolo per id
+    @GetMapping("/vehicle-id/{id}")
     public ResponseEntity<VehicleDTO> geVehicleById(@PathVariable("id") int id) throws NotFoundException {
         logger.info("Visualizzazione veicolo con id -> %d", +id);
         VehicleDTO vehicle = vehicleService.trovaById(id);
@@ -53,11 +53,10 @@ public class VehicleController {
     }
 
     // trovare un utente per role
-    @GetMapping("/vehicles/{targa}")
+    @GetMapping("/vehicle-targa/{targa}")
     public ResponseEntity<VehicleDTO> getVehicleByTarga(@PathVariable("targa") String targa) throws NotFoundException {
 
         VehicleDTO vehicle = vehicleService.trovaPerTarga(targa);
         return new ResponseEntity<VehicleDTO>(vehicle, new HttpHeaders(), HttpStatus.OK);
     }
-
 }
