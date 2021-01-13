@@ -97,9 +97,8 @@ public class UserController {
             throws BindingException, DuplicateException {
         logger.info("Salvo l'utente con id " + user.getId());
 
-        // controllo validità dati articolo
         // if (bindingResult.hasErrors()){
-        // // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
+        // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
         // LocaleContextHolder.getLocale());
         // logger.warn(MsgErr);
         // throw new BindingException(MsgErr);
