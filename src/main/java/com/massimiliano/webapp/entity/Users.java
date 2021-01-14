@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+// import javax.validation.constraints.NotNull;
+// import javax.validation.constraints.Size;
 
 @Data
 @Entity
@@ -20,37 +20,37 @@ public class Users implements Serializable {
     private int id;
 
     @Column(name = "nome")
-    @Size(min = 5, max = 20, message = "{Size.Users.nome.Validation}")
-	@NotNull(message = "{NotNull.Users.nome.Validation}")
+    // @Size(min = 5, max = 20, message = "{Size.Users.nome.Validation}")
+	// @NotNull(message = "{NotNull.Users.nome.Validation}")
     private String nome;
 
     @Column(name = "cognome")
-    @Size(min = 5, max = 20, message = "{Size.Users.cognome.Validation}")
-	@NotNull(message = "{NotNull.Users.cognome.Validation}")
+    // @Size(min = 5, max = 20, message = "{Size.Users.cognome.Validation}")
+	// @NotNull(message = "{NotNull.Users.cognome.Validation}")
     private String cognome;
 
     @Column(name = "dataNascita")
-	@NotNull(message = "{NotNull.Users.dataNascita.Validation}")
+	// @NotNull(message = "{NotNull.Users.dataNascita.Validation}")
     private String dataNascita;
 
     @Column(name = "codiceFiscale")
-    @Size(min = 16, max = 16, message = "{Size.Users.codiceFiscale.Validation}")
-	@NotNull(message = "{NotNull.Users.codiceFiscale.Validation}")
+    // @Size(min = 16, max = 16, message = "{Size.Users.codiceFiscale.Validation}")
+	// @NotNull(message = "{NotNull.Users.codiceFiscale.Validation}")
     private String codiceFiscale;
 
     @Column(name = "email")
-    @Size(min = 5, max = 20, message = "{Size.Users.email.Validation}")
-	@NotNull(message = "{NotNull.Users.email.Validation}")
+    // @Size(min = 5, max = 20, message = "{Size.Users.email.Validation}")
+	// @NotNull(message = "{NotNull.Users.email.Validation}")
     private String email;
 
     @Column(name = "username")
-    @Size(min = 5, max = 20, message = "{Size.Users.username.Validation}")
-	@NotNull(message = "{NotNull.Users.username.Validation}")
+    // @Size(min = 5, max = 20, message = "{Size.Users.username.Validation}")
+	// @NotNull(message = "{NotNull.Users.username.Validation}")
     private String username;
 
     @Column(name = "password")
-    @Size(min = 5, max = 20, message = "{Size.Users.password.Validation}")
-	@NotNull(message = "{NotNull.Users.password.Validation}")
+    // @Size(min = 5, max = 20, message = "{Size.Users.password.Validation}")
+	// @NotNull(message = "{NotNull.Users.password.Validation}")
     private String password;
 
     @Column(name = "role")

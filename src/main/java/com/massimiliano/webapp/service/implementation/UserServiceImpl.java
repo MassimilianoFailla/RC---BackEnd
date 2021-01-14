@@ -35,16 +35,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO selezionaById(int id) {
 
-        Users user = userRepository.findByIdLike(id);
-        UserDTO userDto = modelMapper.map(user, UserDTO.class);
+        // verificare se l'utente non sia nullo
+        Users user = userRepository.findById(id);
+        UserDTO userDto = null;
 
+        if(user != null){
+            userDto = modelMapper.map(user, UserDTO.class);
+        }
         return userDto;
     }
 
     @Override
     public Users selezionaById2(int id) {
 
-        return userRepository.findByIdLike(id);
+        return userRepository.findById(id);
     }
 
     @Override

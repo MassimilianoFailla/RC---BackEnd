@@ -96,7 +96,7 @@ public class ReservationController {
         ObjectNode responseNode = mapper.createObjectNode();
 
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message", String.format("Inserimento Utente %s eseguito con successo", reservation.getId()));
+        responseNode.put("message", String.format("Inserimento Prenotazione con id %d eseguito con successo", reservation.getId()));
 
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
     }

@@ -34,11 +34,15 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationDTO trovaReservationsPerId(int id) {
 
-        Reservations reservation = reservationRepository.findById(id);
-        ReservationDTO reservationDto = modelMapper.map(reservation, ReservationDTO.class);
-
-        return reservationDto;    
-    }
+         // verificare se l'utente non sia nullo
+         Reservations reservation = reservationRepository.findById(id);
+         ReservationDTO reservationDto = null;
+ 
+         if(reservation != null){
+            reservationDto = modelMapper.map(reservation, ReservationDTO.class);
+         }
+         return reservationDto;
+     }
 
     @Override
     public Reservations trovaReservationsPerId2(int id) {

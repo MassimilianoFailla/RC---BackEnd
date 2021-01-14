@@ -34,12 +34,15 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public VehicleDTO trovaById(int id) {
 
-        Vehicles vehicle = vehicleRepository.findById(id);
-        VehicleDTO vehicleDto = modelMapper.map(vehicle, VehicleDTO.class);
-
-        return vehicleDto;    
-    
-    }
+         // verificare se l'utente non sia nullo
+         Vehicles vehicle = vehicleRepository.findById(id);
+         VehicleDTO vehicleDto = null;
+ 
+         if(vehicle != null){
+            vehicleDto = modelMapper.map(vehicle, VehicleDTO.class);
+         }
+         return vehicleDto;
+     }
 
     @Override
     public Vehicles trovaById2(int id) {

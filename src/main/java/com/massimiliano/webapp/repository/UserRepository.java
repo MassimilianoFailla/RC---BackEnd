@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<Users, String> {
 
-    Users findByIdLike(int id);
+    Users findById(int id);
 
     Users deleteById(int id);
 

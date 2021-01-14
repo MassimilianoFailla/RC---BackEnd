@@ -79,7 +79,7 @@ public class VehicleController {
     @PostMapping(value = "/inserisci")
     public ResponseEntity<?> createVeh(@Valid @RequestBody Vehicles vehicle, BindingResult bindingResult)
             throws BindingException, DuplicateException {
-        logger.info("Salvo l'utente con id " + vehicle.getId());
+        logger.info("Salvo il veicolo con id " + vehicle.getId());
 
         // controllo validità dati articolo
         // if (bindingResult.hasErrors()){

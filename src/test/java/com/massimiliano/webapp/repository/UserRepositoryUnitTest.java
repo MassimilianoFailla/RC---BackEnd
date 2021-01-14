@@ -18,7 +18,7 @@ public class UserRepositoryUnitTest {
 
     @Test
     public void TestfindByIdLike(){
-        assertThat(userRepository.findByIdLike(1)).extracting(Users::getNome).isEqualTo("Massimiliano");        
+        assertThat(userRepository.findById(1)).extracting(Users::getNome).isEqualTo("Massimiliano");        
     }
 
     @Test
