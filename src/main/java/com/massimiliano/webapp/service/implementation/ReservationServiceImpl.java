@@ -9,10 +9,10 @@ import com.massimiliano.webapp.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service // notazione di servizio
-@Transactional() // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione   
+@Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione   
 public class ReservationServiceImpl implements ReservationService {
 
     @Autowired

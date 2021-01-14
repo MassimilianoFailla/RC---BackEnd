@@ -2,8 +2,8 @@ package com.massimiliano.webapp.service.implementation;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import com.massimiliano.webapp.dtos.UserDTO;
 import com.massimiliano.webapp.entity.Users;
 import com.massimiliano.webapp.repository.UserRepository;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service // notazione di servizio
-@Transactional() // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione   
+@Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione   
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -51,11 +51,6 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> selezionaUtentiByRole(String role) {
 
         List<Users> usersList = userRepository.selByRoleLike(role);
-
-        // usersList.forEach(e -> e.getNome());
-        // usersList.forEach(e -> e.setUm(e.getUm().trim()));
-        // usersList.forEach(e -> e.setDescrizione(e.getDescrizione().trim()));
-
         List<UserDTO> retVal = usersList.stream().map(source -> modelMapper.map(source, UserDTO.class))
                 .collect(Collectors.toList());
 
@@ -66,11 +61,6 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> trovaPerNome(String nome) {
 
         List<Users> usersList = userRepository.selByNomeLike(nome);
-
-        // usersList.forEach(e -> e.getNome());
-        // usersList.forEach(e -> e.setUm(e.getUm().trim()));
-        // usersList.forEach(e -> e.setDescrizione(e.getDescrizione().trim()));
-
         List<UserDTO> retVal = usersList.stream().map(source -> modelMapper.map(source, UserDTO.class))
                 .collect(Collectors.toList());
 
@@ -79,12 +69,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> trovaPerCognome(String cognome) {
+
         List<Users> usersList = userRepository.selByCognomeLike(cognome);
-
-        // usersList.forEach(e -> e.getNome());
-        // usersList.forEach(e -> e.setUm(e.getUm().trim()));
-        // usersList.forEach(e -> e.setDescrizione(e.getDescrizione().trim()));
-
         List<UserDTO> retVal = usersList.stream().map(source -> modelMapper.map(source, UserDTO.class))
                 .collect(Collectors.toList());
 
@@ -102,12 +88,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> trovaPerAnnoNascita(String annoNascita) {
+
         List<Users> usersList = userRepository.selByDateLike(annoNascita);
-
-        // usersList.forEach(e -> e.getNome());
-        // usersList.forEach(e -> e.setUm(e.getUm().trim()));
-        // usersList.forEach(e -> e.setDescrizione(e.getDescrizione().trim()));
-
         List<UserDTO> retVal = usersList.stream().map(source -> modelMapper.map(source, UserDTO.class))
                 .collect(Collectors.toList());
 

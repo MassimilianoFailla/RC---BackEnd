@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 // restController
 @RestController
 @RequestMapping("api/vehicles")
+@CrossOrigin(origins = "http://localhost:4200")
 public class VehicleController {
 
     private static final Logger logger = LoggerFactory.getLogger(VehicleController.class);
@@ -58,7 +60,7 @@ public class VehicleController {
     }
 
     // trovare un veicolo per id
-    @GetMapping("/vehicle-id/{id}")
+    @GetMapping(value = "/vehicle-id/{id}", produces = "application/json")
     public ResponseEntity<VehicleDTO> geVehicleById(@PathVariable("id") int id) throws NotFoundException {
         logger.info("Visualizzazione veicolo con id -> %d", +id);
         VehicleDTO vehicle = vehicleService.trovaById(id);
@@ -66,7 +68,7 @@ public class VehicleController {
     }
 
     // trovare un utente per role
-    @GetMapping("/vehicle-targa/{targa}")
+    @GetMapping(value = "/vehicle-targa/{targa}", produces = "application/json")
     public ResponseEntity<VehicleDTO> getVehicleByTarga(@PathVariable("targa") String targa) throws NotFoundException {
 
         VehicleDTO vehicle = vehicleService.trovaPerTarga(targa);

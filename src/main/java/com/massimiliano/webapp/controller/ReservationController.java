@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
 @RequestMapping("api/reservations")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReservationController {
 
     private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
@@ -56,7 +58,7 @@ public class ReservationController {
     }
 
     // trovare un utente per id
-    @GetMapping("/reservation-id/{id}")
+    @GetMapping(value = "/reservation-id/{id}", produces = "application/json")
     public ResponseEntity<ReservationDTO> getReservationById(@PathVariable("id") int id) throws NotFoundException {
         logger.info("Visualizzazione prenotazione con id -> %d", +id);
         ReservationDTO reservation = reservationService.trovaReservationsPerId(id);
