@@ -64,7 +64,7 @@ public class ReservationController {
     }
 
     // inserimento
-    @PostMapping(value = "/inserisci-reservations")
+    @PostMapping(value = "/inserisci")
     public ResponseEntity<?> createRes(@Valid @RequestBody Reservations reservation, BindingResult bindingResult)
             throws BindingException, DuplicateException {
         logger.info("Salvo la prenotazione con id " + reservation.getId());

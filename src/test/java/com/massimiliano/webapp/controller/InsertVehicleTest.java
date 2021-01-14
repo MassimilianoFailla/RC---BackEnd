@@ -4,13 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.io.IOException;
-
 import com.massimiliano.webapp.Application;
 import com.massimiliano.webapp.entity.Vehicles;
 import com.massimiliano.webapp.repository.VehicleRepository;
-
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -49,11 +46,11 @@ public class InsertVehicleTest{
 	
 	String JsonData =  
 			"{\r\n" + 
-			"    \"id\": \"10\",\r\n" + 
-			"    \"casaCostruttrice\": \"CasaCostruttrice\",\r\n" + 
-			"    \"annoImmatricolazione\": \"annoImmatricolazione\",\r\n" + 
-			"    \"modello\": \"modello\",\r\n" + 
-			"    \"targa\": targa,\r\n" + 
+			"    \"id\": \"5\",\r\n" + 
+			"    \"casaCostruttrice\": \"BMW\",\r\n" + 
+			"    \"annoImmatricolazione\": \"2020-12-17\",\r\n" + 
+			"    \"modello\": \"M1\",\r\n" + 
+			"    \"targa\": POL886JK,\r\n" + 
 			"    }\r\n" + 
 			"}";
 	
@@ -61,7 +58,7 @@ public class InsertVehicleTest{
 	@Order(1)
 	public void A_testInsVehicles() throws Exception
 	{
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/vehicles/inserisci-vehicle")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/vehicles/inserisci")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(JsonData)
 				.accept(MediaType.APPLICATION_JSON))
@@ -78,7 +75,7 @@ public class InsertVehicleTest{
 	@Test
 	@Order(2)
 	public void B_testErrInsVehicle() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/vehicles/inserisci-vehicle")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/vehicles/inserisci")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(JsonData)
 				.accept(MediaType.APPLICATION_JSON))
@@ -89,14 +86,14 @@ public class InsertVehicleTest{
 	}
 	
 	String JsonDataMod =  
-            "{\r\n" + 
-			"    \"id\": \"10\",\r\n" + 
-			"    \"casaCostruttrice\": \"CasaCostruttrice\",\r\n" + 
-			"    \"annoImmatricolazione\": \"annoImmatricolazione\",\r\n" + 
-			"    \"modello\": \"\",\r\n" +      // << modello non inserito
-			"    \"targa\": targa,\r\n" + 
-			"    }\r\n" + 
-			"}";
+	"{\r\n" + 
+	"    \"id\": \"5\",\r\n" + 
+	"    \"casaCostruttrice\": \"BMW\",\r\n" + 
+	"    \"annoImmatricolazione\": \"2020-12-17\",\r\n" + 
+	"    \"modello\": \"M3\",\r\n" + 		// << modello cambiato
+	"    \"targa\": POL886JK,\r\n" + 
+	"    }\r\n" + 
+	"}";
             
 	@Test
 	@Order(3)

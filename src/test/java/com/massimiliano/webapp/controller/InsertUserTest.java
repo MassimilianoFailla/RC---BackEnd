@@ -49,15 +49,15 @@ public class InsertUserTest{
 	
 	String JsonData =  
 			"{\r\n" + 
-			"    \"id\": \"10\",\r\n" + 
-			"    \"nome\": \"inserisci nome\",\r\n" + 
-			"    \"cognome\": \"inserisci cognome\",\r\n" + 
-			"    \"daraNascita\": \"inserisci data nascita\",\r\n" + 
-			"    \"codiceFiscale\": inserisci codice fiscale,\r\n" + 
-			"    \"email\": inserisci email,\r\n" + 
-			"    \"username\": \"inserisci username \",\r\n" + 
-			"    \"password\": \"inserisci password\",\r\n" + 
-			"    \"role\": inserisci role,\r\n" +  
+			"    \"id\": \"14\",\r\n" + 
+			"    \"nome\": \"Francesca\",\r\n" + 
+			"    \"cognome\": \"Rumore\",\r\n" + 
+			"    \"dataNascita\": \"1994-01-04\",\r\n" + 
+			"    \"codiceFiscale\": FRCMSLNAKNF9918H,\r\n" + 
+			"    \"email\": francesca.rumore@virgilio.it,\r\n" + 
+			"    \"username\": \"fra94 \",\r\n" + 
+			"    \"password\": \"fra\",\r\n" + 
+			"    \"role\": Customer,\r\n" +  
 			"    }\r\n" + 
 			"}";
 	
@@ -65,7 +65,7 @@ public class InsertUserTest{
 	@Order(1)
 	public void A_testInsUser() throws Exception
 	{
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/users/inserisci-user")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/users/inserisci")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(JsonData)
 				.accept(MediaType.APPLICATION_JSON))
@@ -74,15 +74,15 @@ public class InsertUserTest{
 				.andExpect(jsonPath("$.message").value("Inserimento Utente di prova Eseguita Con Successo"))
 				.andDo(print());
 
-				assertThat(userRepository.findByIdLike(10))
+				assertThat(userRepository.findByIdLike(14))
 				.extracting(Users::getId)
-				.isEqualTo(10);
+				.isEqualTo(14);
 	}
 	
 	@Test
 	@Order(2)
 	public void B_testErrInsUsers() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/users/inserisci-user")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/users/inserisci")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(JsonData)
 				.accept(MediaType.APPLICATION_JSON))
@@ -94,17 +94,17 @@ public class InsertUserTest{
 	
 	String JsonDataMod =  
     "{\r\n" + 
-    "    \"id\": \"10\",\r\n" + 
-    "    \"nome\": \"inserisci nome\",\r\n" + 
-    "    \"cognome\": \"inserisci cognome\",\r\n" + 
-    "    \"annoNascita\": \"inserisci data nascita\",\r\n" + 
-    "    \"codicefiscale\": inserisci codice fiscale,\r\n" + 
-    "    \"email\": email non inserita,\r\n" +      // << valore email cambiato
-    "    \"username\": \"inserisci username \",\r\n" + 
-    "    \"password\": \"inserisci password\",\r\n" + 
-    "    \"role\": inserisci role,\r\n" +  
-    "    }\r\n" + 
-    "}";
+			"    \"id\": \"14\",\r\n" + 
+			"    \"nome\": \"Francesca\",\r\n" + 
+			"    \"cognome\": \"Rumore\",\r\n" + 
+			"    \"dataNascita\": \"1994-01-04\",\r\n" + 
+			"    \"codiceFiscale\": FRCMSLNAKNF9918H,\r\n" + 
+			"    \"email\": francesca.rumore@virgilio.it,\r\n" + 
+			"    \"username\": \"fraRum \",\r\n" + 			// << username cambiato
+			"    \"password\": \"fra\",\r\n" + 
+			"    \"role\": Customer,\r\n" +  
+			"    }\r\n" + 
+			"}";
             
 	@Test
 	@Order(3)
@@ -119,8 +119,8 @@ public class InsertUserTest{
 				.andExpect(jsonPath("$.message").value("Modifica utente Eseguita Con Successo"))
 				.andDo(print());
 		
-		assertThat(userRepository.findByIdLike(2))
-		.extracting(Users::getEmail)
+		assertThat(userRepository.selByUsernameLike("fraRum"))
+		.extracting(Users::getUsername)
 		.isEqualTo(2);
 		
 	}

@@ -74,7 +74,7 @@ public class VehicleController {
     }
 
     // inserimento
-    @PostMapping(value = "/inserisci-vehicle")
+    @PostMapping(value = "/inserisci")
     public ResponseEntity<?> createVeh(@Valid @RequestBody Vehicles vehicle, BindingResult bindingResult)
             throws BindingException, DuplicateException {
         logger.info("Salvo l'utente con id " + vehicle.getId());
@@ -142,7 +142,7 @@ public class VehicleController {
         Vehicles vehicle = vehicleService.trovaById2(id);
 
         if (vehicle == null) {
-            String MsgErr = String.format("L'utente %d non presente! ", id);
+            String MsgErr = String.format("Il veicolo con id %d non presente! ", id);
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
@@ -151,7 +151,7 @@ public class VehicleController {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message", "Eliminazione user con id -> " + id + " Eseguita Con Successo!");
+        responseNode.put("message", "Eliminazione veicolo con id -> " + id + " Eseguita Con Successo!");
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
 
     }

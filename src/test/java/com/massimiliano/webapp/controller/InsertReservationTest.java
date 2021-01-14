@@ -55,7 +55,7 @@ public class InsertReservationTest {
 	@Order(1)
 	public void A_testInsVehicles() throws Exception
 	{
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/reservations/inserisci-reservation")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/reservations/inserisci")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(JsonData)
 				.accept(MediaType.APPLICATION_JSON))
@@ -72,7 +72,7 @@ public class InsertReservationTest {
 	@Test
 	@Order(2)
 	public void B_testErrInsVehicle() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/reservations/inserisci-reservation")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/reservations/inserisci")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(JsonData)
 				.accept(MediaType.APPLICATION_JSON))

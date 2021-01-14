@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.context.i18n.LocaleContextHolder;
 // import org.springframework.context.support.ResourceBundleMessageSource;
-// import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +36,6 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    // ridare un http status alla fine di ogni metodo in modo tale da avere una
-    // risposta
-
     @Autowired
     private UserService userService;
 
@@ -49,6 +45,7 @@ public class UserController {
     // creating a get mapping that retrieves all the users detail from the database
     @GetMapping("/views")
     private Iterable<Users> getListaUtenti() {
+
         // metodo findAll di userServiceImp
         Iterable<Users> listaUtenti = userService.selezionaUtenti();
         logger.info("Visualizzazione Utenti");
@@ -67,9 +64,7 @@ public class UserController {
     // trovare un utente per role
     @GetMapping(value = "/user-role/{role}", produces="application/json")
     public ResponseEntity<List<UserDTO>> geUserByRole(@PathVariable("role") String role) throws NotFoundException {
-
         List<UserDTO> userList = userService.selezionaUtentiByRole(role);
-
         return new ResponseEntity<List<UserDTO>>(userList, new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -78,7 +73,6 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> geUserByName(@PathVariable("nome") String nome) throws NotFoundException {
 
         logger.info("****** Otteniamo l'utente con nome " + nome + " *******");
-
         List<UserDTO> userList = userService.trovaPerNome(nome.toUpperCase() + "%");
 
         if (userList == null) {
@@ -90,7 +84,7 @@ public class UserController {
     }
 
     // inserimento
-    @PostMapping(value = "/inserisci-user")
+    @PostMapping(value = "/inserisci")
     public ResponseEntity<?> createArt(@Valid @RequestBody Users user, BindingResult bindingResult)
             throws BindingException, DuplicateException {
         logger.info("Salvo l'utente con id " + user.getId());
@@ -106,23 +100,19 @@ public class UserController {
         UserDTO checkArt = userService.selezionaById(user.getId());
 
         if (checkArt != null) {
-            String MsgErr = String.format("Utente %s presente! " + "Impossibile utilizzare il metodo POST",
+            String MsgErr = String.format("Utente con id %d presente! " + "Impossibile utilizzare il metodo POST",
                     user.getId());
             logger.warn(MsgErr);
             throw new DuplicateException(MsgErr);
         }
 
         userService.InsUser(user);
-
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
-
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message", String.format("Inserimento Utente %s eseguito con successo", user.getId()));
-
+        responseNode.put("message", String.format("Inserimento Utente con id %d eseguito con successo", user.getId()));
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
     }
-
 
     // modifica
     @RequestMapping(value = "/modifica", method = RequestMethod.PUT, produces = "application/json")
