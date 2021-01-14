@@ -126,7 +126,8 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void InsUser(Users user){
 
-		userRepository.save(user);
+        userRepository.save(user);
+        
 	}
 
 }

@@ -108,12 +108,15 @@ public class UserController {
             throw new DuplicateException(MsgErr);
         }
 
+        logger.info("hai salvato l'utente\n\n\n\n\n\n\n");
+
         userService.InsUser(user);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
         responseNode.put("message", String.format("Inserimento Utente con id %d eseguito con successo", user.getId()));
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
+
     }
 
     // modifica
