@@ -81,14 +81,6 @@ public class VehicleController {
             throws BindingException, DuplicateException {
         logger.info("Salvo il veicolo con id " + vehicle.getId());
 
-        // controllo validità dati articolo
-        // if (bindingResult.hasErrors()){
-        // // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
-        // LocaleContextHolder.getLocale());
-        // logger.warn(MsgErr);
-        // throw new BindingException(MsgErr);
-        // }
-
         // Disabilitare se si vuole gestire anche la modifica
         VehicleDTO checkArt = vehicleService.trovaById(vehicle.getId());
 
@@ -115,12 +107,6 @@ public class VehicleController {
             throws BindingException, NotFoundException {
         logger.info("Modifico il veicolo con id " + vehicle.getId());
 
-        // if (bindingResult.hasErrors()) {
-        // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
-        // LocaleContextHolder.getLocale());
-        // logger.warn(MsgErr);
-        // throw new BindingException(MsgErr);
-        // }
 
         VehicleDTO checkArt = vehicleService.trovaById(vehicle.getId());
 

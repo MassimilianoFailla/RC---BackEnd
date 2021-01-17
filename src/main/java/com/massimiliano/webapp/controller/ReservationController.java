@@ -71,14 +71,6 @@ public class ReservationController {
             throws BindingException, DuplicateException {
         logger.info("Salvo la prenotazione con id " + reservation.getId());
 
-        // controllo validità dati articolo
-        // if (bindingResult.hasErrors()){
-        // // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
-        // LocaleContextHolder.getLocale());
-        // logger.warn(MsgErr);
-        // throw new BindingException(MsgErr);
-        // }
-
         // Disabilitare se si vuole gestire anche la modifica
         ReservationDTO checkArt = reservationService.trovaReservationsPerId(reservation.getId());
 
@@ -106,13 +98,6 @@ public class ReservationController {
     public ResponseEntity<InfoMsg> updateRes(@Valid @RequestBody Reservations reservation, BindingResult bindingResult)
             throws BindingException, NotFoundException {
         logger.info("Modifico la prenotazione con id " + reservation.getId());
-
-        // if (bindingResult.hasErrors()) {
-        // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
-        // LocaleContextHolder.getLocale());
-        // logger.warn(MsgErr);
-        // throw new BindingException(MsgErr);
-        // }
 
         ReservationDTO checkArt = reservationService.trovaReservationsPerId(reservation.getId());
 

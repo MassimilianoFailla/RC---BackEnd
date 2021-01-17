@@ -91,13 +91,6 @@ public class UserController {
             throws BindingException, DuplicateException {
         logger.info("Salvo l'utente con id " + user.getId());
 
-        // if (bindingResult.hasErrors()){
-        // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
-        // LocaleContextHolder.getLocale());
-        // logger.warn(MsgErr);
-        // throw new BindingException(MsgErr);
-        // }
-
         // Disabilitare se si vuole gestire anche la modifica
         UserDTO checkArt = userService.selezionaById(user.getId());
 
@@ -124,13 +117,6 @@ public class UserController {
     public ResponseEntity<InfoMsg> updateUsr(@Valid @RequestBody Users user, BindingResult bindingResult)
             throws BindingException, NotFoundException {
         logger.info("Modifico l'utente con id " + user.getId());
-
-        // if (bindingResult.hasErrors()) {
-        // String MsgErr = errMessage.getMessage(bindingResult.getFieldError(),
-        // LocaleContextHolder.getLocale());
-        // logger.warn(MsgErr);
-        // throw new BindingException(MsgErr);
-        // }
 
         UserDTO checkArt = userService.selezionaById(user.getId());
 
