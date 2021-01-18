@@ -12,10 +12,10 @@ public interface ReservationRepository extends JpaRepository<Reservations, Strin
     
     Reservations findById(int id);
 
-    @Query(value = "SELECT a FROM Prenotazione a WHERE a.utente.id like:idUtente", nativeQuery = true)
+    @Query(value = "SELECT a FROM prenotazione a WHERE a.utente.id like:idUtente", nativeQuery = true)
     List<Reservations> selByIdUserLike(@Param("idUtente") int idUtente);
 
-    @Query(value = "SELECT a FROM Prenotazione a WHERE a.veicolo.targa like:targa", nativeQuery = true)
+    @Query(value = "SELECT a FROM prenotazione a WHERE a.veicolo.targa like:targa", nativeQuery = true)
     List<Reservations> selByTargaVehicleLike(@Param("targa") String targa);
 
 }

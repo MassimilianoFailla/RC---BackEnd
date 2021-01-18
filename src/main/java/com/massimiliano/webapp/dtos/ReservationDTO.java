@@ -12,8 +12,8 @@ public class ReservationDTO {
     
     private int id;
     private Date dataInizio, dataFine;
-    private Users users = new Users();
-    private Vehicles vehicles = new Vehicles();
+    private Users utente = new Users();
+    private Vehicles veicolo = new Vehicles();
     private boolean approvazione;
 
 }

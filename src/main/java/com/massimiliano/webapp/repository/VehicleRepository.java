@@ -11,16 +11,16 @@ public interface VehicleRepository extends JpaRepository<Vehicles, String> {
     
     Vehicles findById(int id);
 
-    @Query(value = "Select * from mezzo Where targa like:targa", nativeQuery = true)
+    @Query(value = "Select * from veicolo Where targa like:targa", nativeQuery = true)
     Vehicles selByTargaLike(@Param("targa") String targa);
 
-    @Query(value= "Select * from mezzo Where modello like:modello",  nativeQuery = true)
+    @Query(value= "Select * from veicolo Where modello like:modello",  nativeQuery = true)
     List<Vehicles> selByModelloLike(@Param("modello") String modello);
 
-    @Query(value= "Select * from mezzo Where casaCostruttrice like:casaCostruttrice",  nativeQuery = true)
+    @Query(value= "Select * from veicolo Where casaCostruttrice like:casaCostruttrice",  nativeQuery = true)
     List<Vehicles> selByCasaCostruttriceLike(@Param("casaCostruttrice") String casaCostruttrice);
 
-    @Query(value= "Select * from mezzo Where annoImmatricolazione like:annoImmatricolazione",  nativeQuery = true)
+    @Query(value= "Select * from veicolo Where annoImmatricolazione like:annoImmatricolazione",  nativeQuery = true)
     List<Vehicles> selByAnnoImmatricolazioneLike(@Param("annoImmatricolazione") String annoImmatricolazione);
 
 }

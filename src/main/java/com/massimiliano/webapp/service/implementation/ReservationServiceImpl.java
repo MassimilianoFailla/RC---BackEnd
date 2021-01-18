@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service // notazione di servizio
-@Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto
-                                // transazione
+@Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto  transazione
 public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
@@ -47,7 +46,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservations trovaReservationsPerId2(int id) {
-
         return reservationRepository.findById(id);
     }
 

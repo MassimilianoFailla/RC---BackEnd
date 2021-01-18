@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Data
@@ -26,10 +29,12 @@ public class Reservations implements Serializable {
     @Column(name = "dataFine", columnDefinition = "TIMESTAMP")
     private Date dataFine;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "idUtente", referencedColumnName = "id")
     private Users utente;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "targa", referencedColumnName = "targa")
     private Vehicles veicolo;
@@ -81,11 +86,11 @@ public class Reservations implements Serializable {
         this.utente = utente;
     }
 
-    public Vehicles getMezzo() {
+    public Vehicles getVehicle() {
         return veicolo;
     }
 
-    public void setMezzo(Vehicles veicolo) {
+    public void setVehicle(Vehicles veicolo) {
         this.veicolo = veicolo;
     }
 
@@ -99,7 +104,7 @@ public class Reservations implements Serializable {
 
     public String toString() {
         return "Prenotazione -> Data Inizio: " + dataInizio + " - Data Fine: " + dataFine
-                + "\nVeicolo Prenotato: " + veicolo.getTarga() + "\n Da ->  " + utente.getId() + " - Approvazione: " + approvazione
-                + " ;";
+                + "\nVeicolo Prenotato: " + veicolo + "\n Da ->  " + utente +
+                 "\n Approvata ->  " + approvazione + " ;";
     }
 }

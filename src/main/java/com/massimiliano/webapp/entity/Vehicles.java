@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Data
@@ -31,6 +34,7 @@ public class Vehicles implements Serializable {
     @Column(name = "targa", unique = true)
     public String targa;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "veicolo")
     private List<Reservations> listaPrenotazioni;
 

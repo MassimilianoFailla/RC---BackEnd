@@ -1,5 +1,7 @@
 package com.massimiliano.webapp.controller;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 import com.massimiliano.webapp.dtos.InfoMsg;
 import com.massimiliano.webapp.dtos.ReservationDTO;
@@ -11,6 +13,7 @@ import com.massimiliano.webapp.exception.BindingException;
 import com.massimiliano.webapp.exception.DuplicateException;
 import com.massimiliano.webapp.exception.NotFoundException;
 import com.massimiliano.webapp.service.ReservationService;
+import com.massimiliano.webapp.service.UserService;
 import com.massimiliano.webapp.service.VehicleService;
 
 import org.slf4j.Logger;
@@ -47,8 +50,8 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    @Autowired
-    private VehicleService vehicleService;
+    Users users = null;
+    Vehicles vehicles = null;
 
     @ModelAttribute("Reservation")
     public Reservations getReservation() {
@@ -61,6 +64,7 @@ public class ReservationController {
 
         // metodo findAll di userServiceImp
         Iterable<Reservations> reservationsList = reservationService.selezionaPrenotazioni();
+
         logger.info("Visualizzazione Prenotazioni");
         return reservationsList;
 
