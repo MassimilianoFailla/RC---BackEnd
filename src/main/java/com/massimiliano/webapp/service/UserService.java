@@ -1,5 +1,6 @@
 package com.massimiliano.webapp.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.massimiliano.webapp.dtos.UserDTO;
@@ -31,7 +32,7 @@ public interface UserService {
 
     public UserDTO trovaPerEmail(String email);
 
-    public  List<UserDTO> trovaPerAnnoNascita(String annoNascita);
+    public  List<UserDTO> trovaPerAnnoNascita(Date annoNascita);
 
     public UserDTO trovaPerUsername(String username);
 

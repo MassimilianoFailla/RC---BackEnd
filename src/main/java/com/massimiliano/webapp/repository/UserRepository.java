@@ -1,5 +1,6 @@
 package com.massimiliano.webapp.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import com.massimiliano.webapp.entity.Users;
@@ -23,7 +24,7 @@ public interface UserRepository extends JpaRepository<Users, String> {
     List<Users> selByCognomeLike(@Param("cognome") String cognome);
 
     @Query(value= "Select * from utente Where dataNascita like:dataNascita",  nativeQuery = true)
-    List<Users> selByDateLike(@Param("dataNascita") String dataNascita);
+    List<Users> selByDateLike(@Param("dataNascita") Date dataNascita);
 
     @Query(value= "Select * from utente Where email like:email",  nativeQuery = true)
     Users selByEmailLike(@Param("email") String email);

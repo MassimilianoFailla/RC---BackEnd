@@ -1,19 +1,16 @@
 package com.massimiliano.webapp.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
-
 import javax.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "mezzo")
+@Table(name = "veicolo")
 public class Vehicles implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -27,8 +24,9 @@ public class Vehicles implements Serializable {
     @Column(name = "modello")
     private String modello;
 
-    @Column(name = "annoImmatricolazione")
-    private String annoImmatricolazione;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "annoImmatricolazione", columnDefinition = "TIMESTAMP")
+    private Date annoImmatricolazione;
 
     @Column(name = "targa", unique = true)
     public String targa;
@@ -47,7 +45,7 @@ public class Vehicles implements Serializable {
 
     }
 
-    public Vehicles(String casaCostruttrice, String modello, String annoImmatricolazione, String targa, String tipologia) {
+    public Vehicles(String casaCostruttrice, String modello, Date annoImmatricolazione, String targa, String tipologia) {
         this.casaCostruttrice = casaCostruttrice;
         this.modello = modello;
         this.annoImmatricolazione = annoImmatricolazione;
@@ -56,17 +54,14 @@ public class Vehicles implements Serializable {
     }
 
     public int getId() {
-
         return id;
     }
 
     public void setId(int id) {
-
         this.id = id;
     }
 
     public String getCasaCostruttrice() {
-
         return casaCostruttrice;
     }
 
@@ -75,41 +70,34 @@ public class Vehicles implements Serializable {
     }
 
     public String getModello() {
-
         return modello;
     }
 
     public void setModello(String modello) {
-
         this.modello = modello;
     }
 
-    public String getAnnoImmatricolazione() {
-
+    public Date getAnnoImmatricolazione() {
         return annoImmatricolazione;
     }
 
-    public void setAnnoImmatricolazione(String annoImmatricolazione) {
+    public void setAnnoImmatricolazione(Date annoImmatricolazione) {
         this.annoImmatricolazione = annoImmatricolazione;
     }
 
     public String getTarga() {
-
         return targa;
     }
 
     public void setTarga(String targa) {
-
         this.targa = targa;
     }
 
     public String getTipologia() {
-
         return tipologia;
     }
 
     public void setTipologia(String tipologia) {
-
         this.tipologia = tipologia;
     }
 
@@ -119,8 +107,8 @@ public class Vehicles implements Serializable {
 
 
     public String toString() {
-        return "Mezzo -> Modello: " + modello + " - Casa Costruttrice: " + casaCostruttrice
-                + " - Anno Immatricolazione: " + annoImmatricolazione + " - Targa: " + targa + " - Tipologia Mezzo: "
+        return "Veicolo -> Modello: " + modello + " - Casa Costruttrice: " + casaCostruttrice
+                + " - Anno Immatricolazione: " + annoImmatricolazione + " - Targa: " + targa + " - Tipologia Veicolo: "
                 + tipologia + ";";
     }
 }

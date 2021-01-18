@@ -3,11 +3,16 @@ package com.massimiliano.webapp.controller;
 import javax.validation.Valid;
 import com.massimiliano.webapp.dtos.InfoMsg;
 import com.massimiliano.webapp.dtos.ReservationDTO;
+import com.massimiliano.webapp.dtos.VehicleDTO;
 import com.massimiliano.webapp.entity.Reservations;
+import com.massimiliano.webapp.entity.Users;
+import com.massimiliano.webapp.entity.Vehicles;
 import com.massimiliano.webapp.exception.BindingException;
 import com.massimiliano.webapp.exception.DuplicateException;
 import com.massimiliano.webapp.exception.NotFoundException;
 import com.massimiliano.webapp.service.ReservationService;
+import com.massimiliano.webapp.service.VehicleService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +47,9 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private VehicleService vehicleService;
+
     @ModelAttribute("Reservation")
     public Reservations getReservation() {
         return new Reservations();
@@ -50,6 +58,7 @@ public class ReservationController {
     // creating a get mapping that retrieves all the users detail from the database
     @GetMapping("/views")
     private Iterable<Reservations> getListaReservations() {
+
         // metodo findAll di userServiceImp
         Iterable<Reservations> reservationsList = reservationService.selezionaPrenotazioni();
         logger.info("Visualizzazione Prenotazioni");
@@ -83,10 +92,8 @@ public class ReservationController {
         }
 
         reservationService.InsReservation(reservation);
-
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
-
         responseNode.put("code", HttpStatus.OK.toString());
         responseNode.put("message", String.format("Inserimento Prenotazione con id %d eseguito con successo", reservation.getId()));
 

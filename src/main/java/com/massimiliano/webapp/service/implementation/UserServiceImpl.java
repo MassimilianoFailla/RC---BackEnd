@@ -1,5 +1,6 @@
 package com.massimiliano.webapp.service.implementation;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> trovaPerAnnoNascita(String annoNascita) {
+    public List<UserDTO> trovaPerAnnoNascita(Date annoNascita) {
 
         List<Users> usersList = userRepository.selByDateLike(annoNascita);
         List<UserDTO> retVal = usersList.stream().map(source -> modelMapper.map(source, UserDTO.class))
@@ -129,5 +130,4 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         
 	}
-
 }

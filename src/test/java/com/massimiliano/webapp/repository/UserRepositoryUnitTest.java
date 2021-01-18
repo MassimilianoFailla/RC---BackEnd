@@ -36,10 +36,10 @@ public class UserRepositoryUnitTest {
         assertThat(userRepository.selByCognomeLike(""));
     }
 
-    @Test
-    public void TestfindByDateLike(){
-        assertThat(userRepository.selByDateLike(""));
-    }
+    // @Test
+    // public void TestfindByDateLike(){
+    //     assertThat(userRepository.selByDateLike(""));
+    // }
 
     @Test
     public void TestfindByEmailLike(){

@@ -1,8 +1,12 @@
 package com.massimiliano.webapp.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 // import javax.validation.constraints.NotNull;
 // import javax.validation.constraints.Size;
@@ -12,7 +16,7 @@ import lombok.Data;
 @Table(name = "utente")
 public class Users implements Serializable {
 
-	private static final long serialVersionUID = 291353626011036772L;
+    private static final long serialVersionUID = 291353626011036772L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,41 +25,34 @@ public class Users implements Serializable {
 
     @Column(name = "nome")
     // @Size(min = 5, max = 20, message = "{Size.Users.nome.Validation}")
-	// @NotNull(message = "{NotNull.Users.nome.Validation}")
+    // @NotNull(message = "{NotNull.Users.nome.Validation}")
     private String nome;
 
     @Column(name = "cognome")
-    // @Size(min = 5, max = 20, message = "{Size.Users.cognome.Validation}")
-	// @NotNull(message = "{NotNull.Users.cognome.Validation}")
     private String cognome;
 
-    @Column(name = "dataNascita")
-	// @NotNull(message = "{NotNull.Users.dataNascita.Validation}")
-    private String dataNascita;
+    // @Temporal(TemporalType.TIMESTAMP)
+    // @JsonFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
+    @Column(name = "dataNascita", columnDefinition = "TIMESTAMP")
+    private Date dataNascita;
 
     @Column(name = "codiceFiscale")
-    // @Size(min = 16, max = 16, message = "{Size.Users.codiceFiscale.Validation}")
-	// @NotNull(message = "{NotNull.Users.codiceFiscale.Validation}")
     private String codiceFiscale;
 
     @Column(name = "email")
-    // @Size(min = 5, max = 20, message = "{Size.Users.email.Validation}")
-	// @NotNull(message = "{NotNull.Users.email.Validation}")
     private String email;
 
     @Column(name = "username")
-    // @Size(min = 5, max = 20, message = "{Size.Users.username.Validation}")
-	// @NotNull(message = "{NotNull.Users.username.Validation}")
     private String username;
 
     @Column(name = "password")
-    // @Size(min = 5, max = 20, message = "{Size.Users.password.Validation}")
-	// @NotNull(message = "{NotNull.Users.password.Validation}")
     private String password;
 
     @Column(name = "role")
     private String role;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "utente")
     private List<Reservations> listaPrenotazioni;
 
@@ -67,8 +64,8 @@ public class Users implements Serializable {
 
     }
 
-    public Users(String nome, String cognome, String dataNascita, String codiceFiscale, String email,
-                  String username, String password, String role) {
+    public Users(String nome, String cognome, Date dataNascita, String codiceFiscale, String email, String username,
+            String password, String role) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataNascita = dataNascita;
@@ -140,11 +137,11 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    public String getDataNascita() {
+    public Date getDataNascita() {
         return dataNascita;
     }
 
-    public void setDataNascita(String dataNascita) {
+    public void setDataNascita(Date dataNascita) {
         this.dataNascita = dataNascita;
     }
 
@@ -169,8 +166,8 @@ public class Users implements Serializable {
     }
 
     public String toString() {
-        return "Utente -> Id: "+id+" - Nome: " + nome + " - Cognome: " + cognome + " - Data Nascita: " + dataNascita + " - Codice Fiscale: "
-                + codiceFiscale + " - Email: " + email + " - Username: " + username
+        return "Utente -> Id: " + id + " - Nome: " + nome + " - Cognome: " + cognome + " - Data Nascita: " + dataNascita
+                + " - Codice Fiscale: " + codiceFiscale + " - Email: " + email + " - Username: " + username
                 + " - Password: " + password + " - Tipologia Account: " + role + ";";
     }
 

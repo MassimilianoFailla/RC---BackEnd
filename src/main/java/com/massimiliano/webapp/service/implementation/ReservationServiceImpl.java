@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service // notazione di servizio
-@Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione   
+@Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto
+                                // transazione
 public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
@@ -28,26 +29,26 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void Elimina(Reservations prenotazione) {
-            reservationRepository.delete(prenotazione);
+        reservationRepository.delete(prenotazione);
     }
 
     @Override
     public ReservationDTO trovaReservationsPerId(int id) {
 
-         // verificare se l'utente non sia nullo
-         Reservations reservation = reservationRepository.findById(id);
-         ReservationDTO reservationDto = null;
- 
-         if(reservation != null){
+        // verificare se l'utente non sia nullo
+        Reservations reservation = reservationRepository.findById(id);
+        ReservationDTO reservationDto = null;
+
+        if (reservation != null) {
             reservationDto = modelMapper.map(reservation, ReservationDTO.class);
-         }
-         return reservationDto;
-     }
+        }
+        return reservationDto;
+    }
 
     @Override
     public Reservations trovaReservationsPerId2(int id) {
 
-        return reservationRepository.findById(id);    
+        return reservationRepository.findById(id);
     }
 
     @Override
@@ -59,17 +60,18 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Reservations> selezionaPrenotazioni() {
         return reservationRepository.findAll();
     }
-    
-    @Override
-	@Transactional
-	public void DelReservation(Reservations prenotazione) {
-		reservationRepository.delete(prenotazione);
-	}
 
     @Override
-	@Transactional
-	public void InsReservation(Reservations prenotazione){
+    @Transactional
+    public void DelReservation(Reservations prenotazione) {
+        reservationRepository.delete(prenotazione);
+    }
 
-		reservationRepository.save(prenotazione);
-	}
+    @Override
+    @Transactional
+    public void InsReservation(Reservations prenotazione) {
+
+        reservationRepository.save(prenotazione);
+    }
+
 }

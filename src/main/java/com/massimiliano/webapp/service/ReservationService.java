@@ -24,5 +24,7 @@ public interface ReservationService {
     public List<Reservations> trovaPrenotazioniPerIdUtente(int idUtente);
 
     public List<Reservations> selezionaPrenotazioni();
+
+    
     
 }

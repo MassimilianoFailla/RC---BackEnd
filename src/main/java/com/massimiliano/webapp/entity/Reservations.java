@@ -1,6 +1,8 @@
 package com.massimiliano.webapp.entity;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
 import lombok.Data;
 
@@ -16,59 +18,59 @@ public class Reservations implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "inizioPrenotazione")
-    private String inizioPrenotazione;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "dataInizio", columnDefinition = "TIMESTAMP")
+    private Date dataInizio;
 
-    @Column(name = "finePrenotazione")
-    private String finePrenotazione;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "dataFine", columnDefinition = "TIMESTAMP")
+    private Date dataFine;
 
     @ManyToOne
     @JoinColumn(name = "idUtente", referencedColumnName = "id")
     private Users utente;
 
     @ManyToOne
-    @JoinColumn(name = "targa", referencedColumnName = "id")
+    @JoinColumn(name = "targa", referencedColumnName = "targa")
     private Vehicles veicolo;
+
+    @Column(name = "approvazione")
+    private boolean approvazione;
 
     public Reservations() {
 
     }
 
-    public Reservations(String inizioPrenotazione, String finePrenotazione, Users utente, Vehicles veicolo) {
-        this.inizioPrenotazione = inizioPrenotazione;
-        this.finePrenotazione = finePrenotazione;
+    public Reservations(Date inizioPrenotazione, Date finePrenotazione, Users utente, Vehicles veicolo, boolean approvazione) {
+        this.dataInizio = inizioPrenotazione;
+        this.dataFine = finePrenotazione;
         this.utente = utente;
         this.veicolo = veicolo;
+        this.approvazione = approvazione;
     }
 
     public int getId() {
-
         return id;
     }
 
     public void setId(int id) {
-
         this.id = id;
     }
 
-    public void setInizioPrenotazione(String inizioPrenotazione) {
-
-        this.inizioPrenotazione = inizioPrenotazione;
+    public void setInizioPrenotazione(Date dataInizio) {
+        this.dataInizio = dataInizio;
     }
 
-    public void setFinePrenotazione(String finePrenotazione) {
-
-        this.finePrenotazione = finePrenotazione;
+    public void setFinePrenotazione(Date dataFine) {
+        this.dataFine = dataFine;
     }
 
-    public String getInizioPrenotazione() {
-
-        return inizioPrenotazione;
+    public Date getInizioPrenotazione() {
+        return dataInizio;
     }
 
-    public String getFinePrenotazione() {
-
-        return finePrenotazione;
+    public Date getFinePrenotazione() {
+        return dataFine;
     }
 
     public Users getUtente() {
@@ -87,8 +89,17 @@ public class Reservations implements Serializable {
         this.veicolo = veicolo;
     }
 
+    public boolean getApprovazione() {
+        return approvazione;
+    }
+
+    public void setApprovazione(boolean approvazione) {
+         this.approvazione = approvazione;
+    }
+
     public String toString() {
-        return "Prenotazione -> Data Inizio: " + inizioPrenotazione + " - Data Fine: " + finePrenotazione
-                + "\nVeicolo Prenotato: " + veicolo + "\n Da ->  " + utente + " ;";
+        return "Prenotazione -> Data Inizio: " + dataInizio + " - Data Fine: " + dataFine
+                + "\nVeicolo Prenotato: " + veicolo.getTarga() + "\n Da ->  " + utente.getId() + " - Approvazione: " + approvazione
+                + " ;";
     }
 }
