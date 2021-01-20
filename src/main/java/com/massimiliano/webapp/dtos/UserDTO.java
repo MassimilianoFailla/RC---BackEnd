@@ -8,7 +8,7 @@ import lombok.Data;
 public class UserDTO {
 
     private int id;
-    private String nome, cognome, codiceFiscale, email, username, password, role;
+    private String nome, cognome;
     private Date dataNascita;
-
+    private String codiceFiscale, email, username, password, role;
 }

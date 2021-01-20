@@ -6,7 +6,9 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 // import javax.validation.constraints.NotNull;
 // import javax.validation.constraints.Size;
@@ -24,15 +26,11 @@ public class Users implements Serializable {
     private int id;
 
     @Column(name = "nome")
-    // @Size(min = 5, max = 20, message = "{Size.Users.nome.Validation}")
-    // @NotNull(message = "{NotNull.Users.nome.Validation}")
     private String nome;
 
     @Column(name = "cognome")
     private String cognome;
 
-    // @Temporal(TemporalType.TIMESTAMP)
-    // @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     @Column(name = "dataNascita", columnDefinition = "TIMESTAMP")
     private Date dataNascita;
@@ -52,8 +50,9 @@ public class Users implements Serializable {
     @Column(name = "role")
     private String role;
 
+    // @JsonIgnore
+    @OneToMany(mappedBy = "utente", fetch = FetchType.LAZY)
     @JsonBackReference
-    @OneToMany(mappedBy = "utente")
     private List<Reservations> listaPrenotazioni;
 
     public List<Reservations> getPrenotazione() {
@@ -74,7 +73,6 @@ public class Users implements Serializable {
         this.username = username;
         this.password = password;
         this.role = role;
-
     }
 
     public int getId() {

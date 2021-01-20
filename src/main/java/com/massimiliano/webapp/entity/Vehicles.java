@@ -34,8 +34,9 @@ public class Vehicles implements Serializable {
     @Column(name = "targa", unique = true)
     public String targa;
 
+    // @JsonIgnore
+    @OneToMany(mappedBy = "veicolo", fetch = FetchType.LAZY)
     @JsonBackReference
-    @OneToMany(mappedBy = "veicolo")
     private List<Reservations> listaPrenotazioni;
 
     public List<Reservations> getListaPrenotazioni() {

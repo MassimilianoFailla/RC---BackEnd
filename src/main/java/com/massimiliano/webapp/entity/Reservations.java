@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -29,13 +30,15 @@ public class Reservations implements Serializable {
     @Column(name = "dataFine", columnDefinition = "TIMESTAMP")
     private Date dataFine;
 
-    @JsonBackReference
+    // @JsonBackReference
     @ManyToOne
+    // @JsonManagedReference // prova
     @JoinColumn(name = "idUtente", referencedColumnName = "id")
     private Users utente;
 
-    @JsonBackReference
+    // @JsonBackReference
     @ManyToOne
+    // @JsonManagedReference // prova
     @JoinColumn(name = "targa", referencedColumnName = "targa")
     private Vehicles veicolo;
 
@@ -46,7 +49,8 @@ public class Reservations implements Serializable {
 
     }
 
-    public Reservations(Date inizioPrenotazione, Date finePrenotazione, Users utente, Vehicles veicolo, boolean approvazione) {
+    public Reservations(Date inizioPrenotazione, Date finePrenotazione, Users utente, Vehicles veicolo,
+            boolean approvazione) {
         this.dataInizio = inizioPrenotazione;
         this.dataFine = finePrenotazione;
         this.utente = utente;
@@ -99,12 +103,11 @@ public class Reservations implements Serializable {
     }
 
     public void setApprovazione(boolean approvazione) {
-         this.approvazione = approvazione;
+        this.approvazione = approvazione;
     }
 
     public String toString() {
-        return "Prenotazione -> Data Inizio: " + dataInizio + " - Data Fine: " + dataFine
-                + "\nVeicolo Prenotato: " + veicolo + "\n Da ->  " + utente +
-                 "\n Approvata ->  " + approvazione + " ;";
+        return "Prenotazione -> Data Inizio: " + dataInizio + " - Data Fine: " + dataFine + "\nVeicolo Prenotato: "
+                + veicolo + "\n Da ->  " + utente + "\n Approvata ->  " + approvazione + " ;";
     }
 }

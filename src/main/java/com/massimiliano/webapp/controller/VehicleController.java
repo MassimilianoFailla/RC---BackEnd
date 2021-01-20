@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -51,9 +53,9 @@ public class VehicleController {
 
     // creating a get mapping that retrieves all the users detail from the database
     @GetMapping("/views")
-    private Iterable<Vehicles> getListaVeicoli() {
+    private Iterable<VehicleDTO> getListaVeicoli() {
         // metodo findAll di userServiceImp
-        Iterable<Vehicles> vehicleList = vehicleService.trovaMezzi();
+        Iterable<VehicleDTO> vehicleList = vehicleService.selezionaVeicoli();
         logger.info("Visualizzazione Veicoli");
         return vehicleList;
 
@@ -76,17 +78,17 @@ public class VehicleController {
     }
 
     // inserimento
-    @PostMapping(value = "/inserisci")
+    @PostMapping(value = "/inserisci", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVeh(@Valid @RequestBody Vehicles vehicle, BindingResult bindingResult)
             throws BindingException, DuplicateException {
+
         logger.info("Salvo il veicolo con id " + vehicle.getId());
 
         // Disabilitare se si vuole gestire anche la modifica
-        VehicleDTO checkArt = vehicleService.trovaById(vehicle.getId());
+        VehicleDTO vehicleDTO = vehicleService.trovaById(vehicle.getId());
 
-        if (checkArt != null) {
-            String MsgErr = String.format("Veicolo con id -> %d presente! " + "Impossibile utilizzare il metodo POST",
-                    vehicle.getId());
+        if (vehicleDTO != null) {
+            String MsgErr = String.format("Veicolo con id -> " +vehicle.getId()+ " presente! - Impossibile inserire!");
             logger.warn(MsgErr);
             throw new DuplicateException(MsgErr);
         }
@@ -96,52 +98,52 @@ public class VehicleController {
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
         responseNode.put("message",
-                String.format("Inserimento nuovo veicolo con id %d eseguito con successo", vehicle.getId()));
+                String.format("Inserimento nuovo veicolo con id -> " +vehicle.getId()+" eseguito con successo"));
 
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
     }
 
+
     // modifica
-    @RequestMapping(value = "/modifica", method = RequestMethod.PUT)
+    @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT)
     public ResponseEntity<InfoMsg> updateVeh(@Valid @RequestBody Vehicles vehicle, BindingResult bindingResult)
             throws BindingException, NotFoundException {
-        logger.info("Modifico il veicolo con id " + vehicle.getId());
 
+        logger.info("Modifico il veicolo con id -> " + vehicle.getId());
 
-        VehicleDTO checkArt = vehicleService.trovaById(vehicle.getId());
+        VehicleDTO vehicleDTO = vehicleService.trovaById(vehicle.getId());
 
-        if (checkArt == null) {
+        if (vehicleDTO == null) {
             String MsgErr = String.format(
-                    "Il veicolo con id %d non è presente! " + "Impossibile utilizzare il metodo PUT", vehicle.getId());
+                    "Il veicolo con id -> "+vehicle.getId()+" non è presente! - Impossibile modificare!");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
 
         vehicleService.InsVehicle(vehicle);
         String code = HttpStatus.OK.toString();
-        String message = String.format("Modifica veicolo con id %d Eseguita Con Successo", vehicle.getId());
+        String message = String.format("Modifica veicolo con id -> " + vehicle.getId() + " Eseguita Con Successo");
         return new ResponseEntity<InfoMsg>(new InfoMsg(code, message), HttpStatus.CREATED);
     }
 
     // eliminazione
     @RequestMapping(value = "/elimina/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<?> deleteVeh(@PathVariable("id") int id) throws NotFoundException {
-        logger.info("Elimino il veicolo con id " + id);
-        Vehicles vehicle = vehicleService.trovaById2(id);
 
-        if (vehicle == null) {
-            String MsgErr = String.format("Il veicolo con id %d non presente! ", id);
+        logger.info("Eliminazione veicolo con id -> " + id + "\n");
+        System.out.println(id);
+        VehicleDTO vehicleDTO = vehicleService.trovaById(id);
+        if (vehicleDTO == null) {
+            String MsgErr = String.format("Il veicolo con id -> " +id+" non presente! ");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
-
-        vehicleService.DelVehicle(vehicle);
+        vehicleService.DelVeh(vehicleDTO);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message", "Eliminazione veicolo con id -> " + id + " Eseguita Con Successo!");
+        responseNode.put("message", "Eliminazione Veicolo con id ->  " + id + " Eseguita Con Successo");
+
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
-
     }
-
 }

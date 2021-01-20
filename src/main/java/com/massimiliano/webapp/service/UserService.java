@@ -12,13 +12,13 @@ public interface UserService {
 
     // inserire le operazioni da eseguire
 
-    public void Salva(Users utente);
+    //    public void InsUser(UserDTO userDto);
 
-	public void InsUser(Users user);
+    public void InsUser(Users user);
 
-	public void DelUser(Users user);
+    public void DelUser(UserDTO userDTO);
 
-    public Iterable<Users> selezionaUtenti();
+    public List<UserDTO> selezionaUtenti();
 
     public Users selezionaById2(int id);
 
@@ -32,7 +32,7 @@ public interface UserService {
 
     public UserDTO trovaPerEmail(String email);
 
-    public  List<UserDTO> trovaPerAnnoNascita(Date annoNascita);
+    public List<UserDTO> trovaPerAnnoNascita(Date annoNascita);
 
     public UserDTO trovaPerUsername(String username);
 

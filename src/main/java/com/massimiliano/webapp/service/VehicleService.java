@@ -9,16 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public interface VehicleService {
 
-   public Iterable<Vehicles> trovaMezzi();
+   public List<VehicleDTO> selezionaVeicoli();
 
-   public void Salva(Vehicles veicolo);
+   public void InsVehicle(Vehicles vehicle);
 
-   public void Elimina(Vehicles veicolo);
-
-   public void InsVehicle(Vehicles veicolo);
-
-	public void DelVehicle(Vehicles veicolo);
-
+   public void DelVeh(VehicleDTO veicoloDto);
+   
    public VehicleDTO trovaById(int id);
 
    public Vehicles trovaById2(int id);

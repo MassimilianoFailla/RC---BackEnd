@@ -1,5 +1,6 @@
 package com.massimiliano.webapp.service.implementation;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service // notazione di servizio
-@Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto transazione   
+@Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto
+                                // transazione
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -24,13 +26,18 @@ public class UserServiceImpl implements UserService {
     ModelMapper modelMapper;
 
     @Override
-    public List<Users> selezionaUtenti() {
-        return userRepository.findAll();
-    }
+    public List<UserDTO> selezionaUtenti() {
 
-    @Override
-    public void Salva(Users Users) {
-        userRepository.save(Users);
+        List<Users> listUsers = userRepository.findAll();
+
+        // creo la lista dto
+        List<UserDTO> listDtoUsr = new ArrayList<UserDTO>();
+
+        for (int i = 0; i < listUsers.size(); i++) {
+            Users user = listUsers.get(i);
+            listDtoUsr.add(modelMapper.map(user, UserDTO.class));
+        }
+        return listDtoUsr;
     }
 
     @Override
@@ -40,7 +47,7 @@ public class UserServiceImpl implements UserService {
         Users user = userRepository.findById(id);
         UserDTO userDto = null;
 
-        if(user != null){
+        if (user != null) {
             userDto = modelMapper.map(user, UserDTO.class);
         }
         return userDto;
@@ -111,6 +118,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO trovaPerUsername(String username) {
+
         Users user = userRepository.selByUsernameLike(username);
         UserDTO userDto = modelMapper.map(user, UserDTO.class);
 
@@ -118,16 +126,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-	@Transactional
-	public void DelUser(Users user) {
-		userRepository.delete(user);
-	}
+    @Transactional
+    public void DelUser(UserDTO userDTO) {
+
+        Users user = modelMapper.map(userDTO, Users.class);
+        userRepository.delete(user);
+    }
 
     @Override
-	@Transactional
-	public void InsUser(Users user){
+    @Transactional
+    public void InsUser(Users user){
 
         userRepository.save(user);
-        
-	}
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.massimiliano.webapp.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 import com.massimiliano.webapp.dtos.InfoMsg;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -60,13 +63,14 @@ public class ReservationController {
 
     // creating a get mapping that retrieves all the users detail from the database
     @GetMapping("/views")
-    private Iterable<Reservations> getListaReservations() {
+    public ResponseEntity<List<ReservationDTO>> getListaReservations() {
 
         // metodo findAll di userServiceImp
-        Iterable<Reservations> reservationsList = reservationService.selezionaPrenotazioni();
+        List<ReservationDTO> reservationsList = reservationService.selezionaTutti();
 
         logger.info("Visualizzazione Prenotazioni");
-        return reservationsList;
+
+        return new ResponseEntity<List<ReservationDTO>>(reservationsList, new HttpHeaders(), HttpStatus.OK);
 
     }
 
@@ -79,72 +83,70 @@ public class ReservationController {
     }
 
     // inserimento
-    @PostMapping(value = "/inserisci")
+    @PostMapping(value = "/inserisci", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createRes(@Valid @RequestBody Reservations reservation, BindingResult bindingResult)
             throws BindingException, DuplicateException {
-        logger.info("Salvo la prenotazione con id " + reservation.getId());
+        logger.info("Salvo la prenotazione con id -> " + reservation.getId());
 
         // Disabilitare se si vuole gestire anche la modifica
         ReservationDTO checkArt = reservationService.trovaReservationsPerId(reservation.getId());
 
         if (checkArt != null) {
             String MsgErr = String.format(
-                    "Prenotazione con idx %d presente! " + "Impossibile utilizzare il metodo POST",
+                    "Prenotazione con id -> " + reservation.getId() + " presente! - Impossibile utilizzare il metodo POST",
                     reservation.getId());
             logger.warn(MsgErr);
             throw new DuplicateException(MsgErr);
         }
 
-        reservationService.InsReservation(reservation);
+        reservationService.InsRes(reservation);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message", String.format("Inserimento Prenotazione con id %d eseguito con successo", reservation.getId()));
+        responseNode.put("message", String.format("Inserimento Prenotazione con id -> "+reservation.getId()+" eseguito con successo"));
 
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
     }
 
     // modifica
-    @RequestMapping(value = "/modifica", method = RequestMethod.PUT)
-    public ResponseEntity<InfoMsg> updateRes(@Valid @RequestBody Reservations reservation, BindingResult bindingResult)
-            throws BindingException, NotFoundException {
-        logger.info("Modifico la prenotazione con id " + reservation.getId());
+    @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity<InfoMsg> updateRes(@Valid @RequestBody Reservations reservation,
+            BindingResult bindingResult, @PathVariable("id") int id) throws BindingException, NotFoundException {
+        System.out.println("Modifica utente con id -> %d" + id);
 
-        ReservationDTO checkArt = reservationService.trovaReservationsPerId(reservation.getId());
+        ReservationDTO reservationDTO = reservationService.trovaReservationsPerId(reservation.getId());
 
-        if (checkArt == null) {
-            String MsgErr = String.format(
-                    "La prenotazione con id %d non è presente! " + "Impossibile utilizzare il metodo PUT",
-                    reservation.getId());
+        if (reservationDTO == null) {
+            String MsgErr = String.format("Prenotazione non presente! " + "Impossibile utilizzare il metodo PUT");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
 
-        reservationService.InsReservation(reservation);
+        reservationService.InsRes(reservation);
         String code = HttpStatus.OK.toString();
-        String message = String.format("Modifica prenotazione con id %d Eseguita Con Successo", reservation.getId());
+        String message = String.format("Modifica prenotazione con id -> " + id + "Eseguita Con Successo");
         return new ResponseEntity<InfoMsg>(new InfoMsg(code, message), HttpStatus.CREATED);
     }
 
     // eliminazione
     @RequestMapping(value = "/elimina/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<?> deleteRes(@PathVariable("id") int id) throws NotFoundException {
-        logger.info("Elimino la prenotazione con id " + id);
-        Reservations reservation = reservationService.trovaReservationsPerId2(id);
+    public ResponseEntity<?> deleteResById(@PathVariable("id") int id) throws NotFoundException {
 
-        if (reservation == null) {
-            String MsgErr = String.format("La prenotazione con %d non presente! ", id);
+        logger.info("Eliminazione prenotazione con id -> " + id + "\n");
+        System.out.println(id);
+        ReservationDTO reservationDTO = reservationService.trovaReservationsPerId(id);
+        if (reservationDTO == null) {
+            String MsgErr = String.format("Prenotazione con %d non presente! ", +id);
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
-
-        reservationService.DelReservation(reservation);
+        reservationService.DelReservation(reservationDTO);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message", "Eliminazione prenotazione con id -> " + id + " Eseguita Con Successo!");
-        return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
+        responseNode.put("message", "Eliminazione Prenotazione " + " Eseguita Con Successo");
 
+        return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK);
     }
 
 }

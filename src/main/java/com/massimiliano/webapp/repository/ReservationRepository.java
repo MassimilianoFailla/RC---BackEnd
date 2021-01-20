@@ -18,4 +18,6 @@ public interface ReservationRepository extends JpaRepository<Reservations, Strin
     @Query(value = "SELECT a FROM prenotazione a WHERE a.veicolo.targa like:targa", nativeQuery = true)
     List<Reservations> selByTargaVehicleLike(@Param("targa") String targa);
 
+
+
 }

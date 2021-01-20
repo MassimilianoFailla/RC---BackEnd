@@ -9,13 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ReservationService {
 
-    public void Salva(Reservations prenotazione);
 
-    public void Elimina(Reservations prenotazione);
+    public void InsRes(Reservations reservation);
 
-    public void InsReservation(Reservations prenotazione);
-
-    public void DelReservation(Reservations prenotazione);
+	public void DelReservation(ReservationDTO reservationDTO);
     
     public ReservationDTO trovaReservationsPerId(int id);
 
@@ -23,8 +20,7 @@ public interface ReservationService {
 
     public List<Reservations> trovaPrenotazioniPerIdUtente(int idUtente);
 
-    public List<Reservations> selezionaPrenotazioni();
+    public List<ReservationDTO> selezionaTutti();
 
-    
-    
+
 }
