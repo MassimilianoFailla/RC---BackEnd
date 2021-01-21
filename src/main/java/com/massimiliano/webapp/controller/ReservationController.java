@@ -86,12 +86,13 @@ public class ReservationController {
     @PostMapping(value = "/inserisci", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createRes(@Valid @RequestBody Reservations reservation, BindingResult bindingResult)
             throws BindingException, DuplicateException {
+
         logger.info("Salvo la prenotazione con id -> " + reservation.getId());
 
         // Disabilitare se si vuole gestire anche la modifica
-        ReservationDTO checkArt = reservationService.trovaReservationsPerId(reservation.getId());
+        ReservationDTO reservationsDTO = reservationService.trovaReservationsPerId(reservation.getId());
 
-        if (checkArt != null) {
+        if (reservationsDTO != null) {
             String MsgErr = String.format(
                     "Prenotazione con id -> " + reservation.getId() + " presente! - Impossibile utilizzare il metodo POST",
                     reservation.getId());

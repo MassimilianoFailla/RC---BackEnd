@@ -9,6 +9,8 @@ import com.massimiliano.webapp.entity.Vehicles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.context.i18n.LocaleContextHolder;
+// import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +38,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    // @Autowired
+    // private ResourceBundleMessageSource errMessage;
 
     // creating a get mapping that retrieves all the users detail from the database
     @GetMapping("/views")
@@ -78,50 +83,68 @@ public class UserController {
             return new ResponseEntity<List<UserDTO>>(userList, HttpStatus.OK);
     }
 
+//    // inserimento DTO
+//    @PostMapping(value = "/inserisci", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public ResponseEntity<?> createUsr(@RequestBody UserDTO userDto) {
+//        System.out.println(userDto);
+//
+//        userService.InsUser(userDto);
+//        ObjectMapper mapper = new ObjectMapper();
+//        ObjectNode responseNode = mapper.createObjectNode();
+//
+//        responseNode.put("code", HttpStatus.OK.toString());
+//        responseNode.put("message", String.format("Inserimento nuovo utente eseguito con successo!!"));
+//
+//        return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
+//    }
+
+
     // inserimento
     @PostMapping(value = "/inserisci", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createArt(@Valid @RequestBody Users user, BindingResult bindingResult)
             throws BindingException, DuplicateException {
-
         logger.info("Salvo l'utente con id " + user.getId());
+
         UserDTO userDTO = userService.selezionaById(user.getId());
 
         if (userDTO != null) {
-            String MsgErr = String.format("Utente con id -> " + user.getId() + " presente! - Impossibile inserire!",
+            String MsgErr = String.format("Utente con id -> " +user.getId()+ " presente! - Impossibile inserire!",
                     user.getId());
             logger.warn(MsgErr);
             throw new DuplicateException(MsgErr);
         }
 
         logger.info("hai salvato l'utente\n\n\n\n\n\n\n");
+
         userService.InsUser(user);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message",
-                String.format("Inserimento nuovo utente con id -> " + user.getId() + "eseguito con successo"));
+        responseNode.put("message", String.format("Inserimento nuovo utente con id -> " + user.getId() + "eseguito con successo"));
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
 
     }
 
     // modifica
     @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity<InfoMsg> updateUsr(@Valid @RequestBody Users user, @PathVariable("id") int id,
-            BindingResult bindingResult) throws BindingException, NotFoundException {
+    public ResponseEntity<InfoMsg> updateUsr(@Valid @RequestBody Users user, @PathVariable("id") int id, BindingResult bindingResult)
+            throws BindingException, NotFoundException {
 
         logger.info("Modifico l'utente con id " + user.getId());
+
         UserDTO userDTO = userService.selezionaById(user.getId());
 
         if (userDTO == null) {
-            String MsgErr = String
-                    .format("L'utente con id -> " + user.getId() + " non è presente! " + "Impossibile modificare");
+            String MsgErr = String.format(
+                    "L'utente con id -> "+user.getId()+" non è presente! " + "Impossibile modificare");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
 
         userService.InsUser(user);
         String code = HttpStatus.OK.toString();
-        String message = String.format("Modifica utente con id -> " + user.getId() + " eseguita Con Successo");
+        String message = String.format("Modifica utente con id -> " +user.getId()+ " eseguita Con Successo");
         return new ResponseEntity<InfoMsg>(new InfoMsg(code, message), HttpStatus.CREATED);
     }
 
@@ -129,11 +152,12 @@ public class UserController {
     @RequestMapping(value = "/elimina/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<?> deleteUSrById(@PathVariable("id") int id) throws NotFoundException {
 
+
         logger.info("Eliminazione utente con id -> " + id + "\n");
         System.out.println(id);
         UserDTO userDTO = userService.selezionaById(id);
         if (userDTO == null) {
-            String MsgErr = String.format("L'utente con id -> " + id + "non presente! ");
+            String MsgErr = String.format("L'utente con id -> " +id +"non presente! ");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }

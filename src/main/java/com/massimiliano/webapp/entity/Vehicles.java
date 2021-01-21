@@ -34,6 +34,9 @@ public class Vehicles implements Serializable {
     @Column(name = "targa", unique = true)
     public String targa;
 
+    @Column(name = "tipologia")
+    private String tipologia;
+
     // @JsonIgnore
     @OneToMany(mappedBy = "veicolo", fetch = FetchType.LAZY)
     @JsonBackReference
@@ -43,8 +46,7 @@ public class Vehicles implements Serializable {
         return listaPrenotazioni;
     }
 
-    @Column(name = "tipologia")
-    private String tipologia;
+
 
     public Vehicles() {
 
