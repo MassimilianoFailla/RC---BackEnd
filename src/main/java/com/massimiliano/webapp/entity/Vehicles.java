@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Data
@@ -44,12 +46,13 @@ public class Vehicles implements Serializable {
         return listaPrenotazioni;
     }
 
+
+
     public Vehicles() {
 
     }
 
-    public Vehicles(String casaCostruttrice, String modello, Date annoImmatricolazione, String targa,
-            String tipologia) {
+    public Vehicles(String casaCostruttrice, String modello, Date annoImmatricolazione, String targa, String tipologia) {
         this.casaCostruttrice = casaCostruttrice;
         this.modello = modello;
         this.annoImmatricolazione = annoImmatricolazione;
@@ -108,6 +111,7 @@ public class Vehicles implements Serializable {
     public void setListaPrenotazioni(List<Reservations> listaPrenotazioni) {
         this.listaPrenotazioni = listaPrenotazioni;
     }
+
 
     public String toString() {
         return "Veicolo -> Modello: " + modello + " - Casa Costruttrice: " + casaCostruttrice

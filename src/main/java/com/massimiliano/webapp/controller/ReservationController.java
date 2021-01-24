@@ -1,9 +1,12 @@
 package com.massimiliano.webapp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Valid;
 import com.massimiliano.webapp.dtos.InfoMsg;
 import com.massimiliano.webapp.dtos.ReservationDTO;
+import com.massimiliano.webapp.dtos.VehicleDTO;
 import com.massimiliano.webapp.entity.Reservations;
 import com.massimiliano.webapp.entity.Users;
 import com.massimiliano.webapp.entity.Vehicles;
@@ -11,9 +14,15 @@ import com.massimiliano.webapp.exception.BindingException;
 import com.massimiliano.webapp.exception.DuplicateException;
 import com.massimiliano.webapp.exception.NotFoundException;
 import com.massimiliano.webapp.service.ReservationService;
+import com.massimiliano.webapp.service.UserService;
+import com.massimiliano.webapp.service.VehicleService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.context.i18n.LocaleContextHolder;
+// import org.springframework.context.support.ResourceBundleMessageSource;
+// import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -83,8 +93,9 @@ public class ReservationController {
         ReservationDTO reservationsDTO = reservationService.trovaReservationsPerId(reservation.getId());
 
         if (reservationsDTO != null) {
-            String MsgErr = String.format("Prenotazione con id -> " + reservation.getId()
-                    + " presente! - Impossibile utilizzare il metodo POST", reservation.getId());
+            String MsgErr = String.format(
+                    "Prenotazione con id -> " + reservation.getId() + " presente! - Impossibile utilizzare il metodo POST",
+                    reservation.getId());
             logger.warn(MsgErr);
             throw new DuplicateException(MsgErr);
         }
@@ -93,16 +104,15 @@ public class ReservationController {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message",
-                String.format("Inserimento Prenotazione con id -> " + reservation.getId() + " eseguito con successo"));
+        responseNode.put("message", String.format("Inserimento Prenotazione con id -> "+reservation.getId()+" eseguito con successo"));
 
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
     }
 
     // modifica
     @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity<InfoMsg> updateRes(@Valid @RequestBody Reservations reservation, BindingResult bindingResult,
-            @PathVariable("id") int id) throws BindingException, NotFoundException {
+    public ResponseEntity<InfoMsg> updateRes(@Valid @RequestBody Reservations reservation,
+            BindingResult bindingResult, @PathVariable("id") int id) throws BindingException, NotFoundException {
         System.out.println("Modifica utente con id -> %d" + id);
 
         ReservationDTO reservationDTO = reservationService.trovaReservationsPerId(reservation.getId());

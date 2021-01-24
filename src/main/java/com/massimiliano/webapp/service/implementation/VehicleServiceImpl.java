@@ -2,7 +2,9 @@ package com.massimiliano.webapp.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.massimiliano.webapp.dtos.VehicleDTO;
+import com.massimiliano.webapp.entity.Users;
 import com.massimiliano.webapp.entity.Vehicles;
 import com.massimiliano.webapp.repository.VehicleRepository;
 import com.massimiliano.webapp.service.VehicleService;
@@ -82,7 +84,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     @Transactional
-    public void InsVehicle(Vehicles vehicle) {
+    public void InsVehicle(Vehicles vehicle){
 
         vehicleRepository.save(vehicle);
 
