@@ -31,7 +31,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 // restController
 @RestController
 @RequestMapping("api/users")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+//localhost:4200
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
