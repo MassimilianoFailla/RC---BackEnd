@@ -1,7 +1,6 @@
 package com.massimiliano.webapp.controller;
 
 import com.massimiliano.webapp.dtos.UserDTO;
-import com.massimiliano.webapp.entity.Users;
 import com.massimiliano.webapp.security.JwtRequest;
 import com.massimiliano.webapp.security.JwtResponse;
 import com.massimiliano.webapp.security.JwtTokenUtil;

@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
@@ -37,15 +38,13 @@ public class Vehicles implements Serializable {
     @Column(name = "tipologia")
     private String tipologia;
 
-    // @JsonIgnore
-    @OneToMany(mappedBy = "veicolo", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private List<Reservations> listaPrenotazioni;
-
-    public List<Reservations> getListaPrenotazioni() {
-        return listaPrenotazioni;
-    }
-
+//    @JsonBackReference
+//    @OneToMany(mappedBy = "veicolo", fetch = FetchType.LAZY)
+//    private List<Reservations> listaPrenotazioni;
+//
+//    public List<Reservations> getListaPrenotazioni() {
+//        return listaPrenotazioni;
+//    }
 
 
     public Vehicles() {
@@ -108,9 +107,9 @@ public class Vehicles implements Serializable {
         this.tipologia = tipologia;
     }
 
-    public void setListaPrenotazioni(List<Reservations> listaPrenotazioni) {
-        this.listaPrenotazioni = listaPrenotazioni;
-    }
+//    public void setListaPrenotazioni(List<Reservations> listaPrenotazioni) {
+//        this.listaPrenotazioni = listaPrenotazioni;
+//    }
 
 
     public String toString() {

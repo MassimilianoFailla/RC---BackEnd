@@ -88,7 +88,7 @@ public class VehicleController {
         VehicleDTO vehicleDTO = vehicleService.trovaById(vehicle.getId());
 
         if (vehicleDTO != null) {
-            String MsgErr = String.format("Veicolo con id -> " +vehicle.getId()+ " presente! - Impossibile inserire!");
+            String MsgErr = String.format("Veicolo con id -> " + vehicle.getId() + " presente! - Impossibile inserire!");
             logger.warn(MsgErr);
             throw new DuplicateException(MsgErr);
         }
@@ -98,7 +98,7 @@ public class VehicleController {
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
         responseNode.put("message",
-                String.format("Inserimento nuovo veicolo con id -> " +vehicle.getId()+" eseguito con successo"));
+                String.format("Inserimento nuovo veicolo con id -> " + vehicle.getId() + " eseguito con successo"));
 
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
     }
@@ -115,7 +115,7 @@ public class VehicleController {
 
         if (vehicleDTO == null) {
             String MsgErr = String.format(
-                    "Il veicolo con id -> "+vehicle.getId()+" non è presente! - Impossibile modificare!");
+                    "Il veicolo con id -> " + vehicle.getId() + " non è presente! - Impossibile modificare!");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
@@ -134,7 +134,7 @@ public class VehicleController {
         System.out.println(id);
         VehicleDTO vehicleDTO = vehicleService.trovaById(id);
         if (vehicleDTO == null) {
-            String MsgErr = String.format("Il veicolo con id -> " +id+" non presente! ");
+            String MsgErr = String.format("Il veicolo con id -> " + id + " non presente! ");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }

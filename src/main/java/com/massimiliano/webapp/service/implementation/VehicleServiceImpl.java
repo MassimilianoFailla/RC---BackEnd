@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Service // notazione di servizio
 @Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto
-                                // transazione
+// transazione
 public class VehicleServiceImpl implements VehicleService {
 
     @Autowired
@@ -84,7 +84,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     @Transactional
-    public void InsVehicle(Vehicles vehicle){
+    public void InsVehicle(Vehicles vehicle) {
 
         vehicleRepository.save(vehicle);
 

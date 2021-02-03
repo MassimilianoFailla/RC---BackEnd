@@ -1,7 +1,9 @@
 package com.massimiliano.webapp.dtos;
 
 import java.util.Date;
+import java.util.List;
 
+import com.massimiliano.webapp.entity.Reservations;
 import lombok.Data;
 
 @Data
@@ -11,6 +13,8 @@ public class UserDTO {
     private String nome, cognome;
     private Date dataNascita;
     private String codiceFiscale, email, username, password, role;
+    private List<Reservations> listaPrenotazioni;
+
 
     public int getId() {
         return id;
@@ -82,5 +86,13 @@ public class UserDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Reservations> getListaPrenotazioni() {
+        return listaPrenotazioni;
+    }
+
+    public void setListaPrenotazioni(List<Reservations> listaPrenotazioni) {
+        this.listaPrenotazioni = listaPrenotazioni;
     }
 }

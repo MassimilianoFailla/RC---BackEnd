@@ -50,21 +50,20 @@ public class Users implements Serializable {
     @Column(name = "role")
     private String role;
 
-    // @JsonIgnore
-    @OneToMany(mappedBy = "utente", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private List<Reservations> listaPrenotazioni;
-
-    public List<Reservations> getPrenotazione() {
-        return listaPrenotazioni;
-    }
+//    @JsonBackReference
+//    @OneToMany(mappedBy = "utente", fetch = FetchType.LAZY)
+//    private List<Reservations> listaPrenotazioni;
+//
+//    public List<Reservations> getPrenotazione() {
+//        return listaPrenotazioni;
+//    }
 
     public Users() {
 
     }
 
     public Users(String nome, String cognome, Date dataNascita, String codiceFiscale, String email, String username,
-            String password, String role) {
+                 String password, String role) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataNascita = dataNascita;
@@ -158,10 +157,10 @@ public class Users implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
-
-    public void setPrenotazioneList(List<Reservations> listaPrenotazioni) {
-        this.listaPrenotazioni = listaPrenotazioni;
-    }
+//
+//    public void setPrenotazioneList(List<Reservations> listaPrenotazioni) {
+//        this.listaPrenotazioni = listaPrenotazioni;
+//    }
 
     public String toString() {
         return "Utente -> Id: " + id + " - Nome: " + nome + " - Cognome: " + cognome + " - Data Nascita: " + dataNascita

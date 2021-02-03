@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Service // notazione di servizio
 @Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto
-                                // transazione
+// transazione
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void InsUser(Users user){
+    public void InsUser(Users user) {
 
         userRepository.save(user);
 

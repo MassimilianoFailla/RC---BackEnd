@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ReservationService {
 
-
     public void InsRes(Reservations reservation);
 
-	public void DelReservation(ReservationDTO reservationDTO);
-    
+    public void DelReservation(ReservationDTO reservationDTO);
+
     public ReservationDTO trovaReservationsPerId(int id);
 
     public Reservations trovaReservationsPerId2(int id);
 
     public List<Reservations> trovaPrenotazioniPerIdUtente(int idUtente);
 
-    public List<ReservationDTO> selezionaTutti();
+    // restituisce la lista delle prenotazioni in dto
+//    public List<ReservationDTO> selezionaTutti();
 
-
+    public List<Reservations> selezionaTutti();
 }

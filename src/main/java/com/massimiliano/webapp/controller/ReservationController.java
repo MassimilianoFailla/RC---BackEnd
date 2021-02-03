@@ -1,12 +1,10 @@
 package com.massimiliano.webapp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 import com.massimiliano.webapp.dtos.InfoMsg;
 import com.massimiliano.webapp.dtos.ReservationDTO;
-import com.massimiliano.webapp.dtos.VehicleDTO;
 import com.massimiliano.webapp.entity.Reservations;
 import com.massimiliano.webapp.entity.Users;
 import com.massimiliano.webapp.entity.Vehicles;
@@ -14,8 +12,7 @@ import com.massimiliano.webapp.exception.BindingException;
 import com.massimiliano.webapp.exception.DuplicateException;
 import com.massimiliano.webapp.exception.NotFoundException;
 import com.massimiliano.webapp.service.ReservationService;
-import com.massimiliano.webapp.service.UserService;
-import com.massimiliano.webapp.service.VehicleService;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,29 +54,57 @@ public class ReservationController {
         return new Reservations();
     }
 
-    // creating a get mapping that retrieves all the users detail from the database
+//    // get la lista intera delle prenotazioni in formato DTO
+//    @GetMapping("/views")
+//    public ResponseEntity<List<ReservationDTO>> getListaReservations() {
+//
+//        // metodo findAll di userServiceImp
+//        List<ReservationDTO> reservationsList = reservationService.selezionaTutti();
+//
+//        logger.info("Visualizzazione Prenotazioni");
+//        return new ResponseEntity<List<ReservationDTO>>(reservationsList, new HttpHeaders(), HttpStatus.OK);
+//
+//    }
+
+    // get la lista intera delle prenotazioni come modello
+
     @GetMapping("/views")
-    public ResponseEntity<List<ReservationDTO>> getListaReservations() {
+    public ResponseEntity<List<Reservations>> getListaReservations() {
 
         // metodo findAll di userServiceImp
-        List<ReservationDTO> reservationsList = reservationService.selezionaTutti();
+        List<Reservations> reservationsList = reservationService.selezionaTutti();
 
         logger.info("Visualizzazione Prenotazioni");
-
-        return new ResponseEntity<List<ReservationDTO>>(reservationsList, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<List<Reservations>>(reservationsList, new HttpHeaders(), HttpStatus.OK);
 
     }
 
-    // trovare un utente per id
+    // trovare una prenotazione per id
     @GetMapping(value = "/reservation-id/{id}", produces = "application/json")
     public ResponseEntity<ReservationDTO> getReservationById(@PathVariable("id") int id) throws NotFoundException {
+
         logger.info("Visualizzazione prenotazione con id -> %d", +id);
+
         ReservationDTO reservation = reservationService.trovaReservationsPerId(id);
+
         return new ResponseEntity<ReservationDTO>(reservation, new HttpHeaders(), HttpStatus.OK);
     }
 
+    // trovare una prenotazione per utente
+    @GetMapping(value = "/reservation-user/{idUtente}", produces = "application/json")
+    public ResponseEntity<List<Reservations>> getReservationByIdUser(@PathVariable("idUtente") int idUtente) throws NotFoundException {
+
+        logger.info("Visualizzazione prenotazioni dell'utente -> ", idUtente);
+
+        List<Reservations> reservationList = reservationService.trovaPrenotazioniPerIdUtente(idUtente);
+
+        return new ResponseEntity<List<Reservations>>(reservationList, new HttpHeaders(), HttpStatus.OK);
+
+    }
+
+
     // inserimento
-    @PostMapping(value = "/inserisci", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/inserisci", /*produces = "application/json"*/ /*produces = MediaType.APPLICATION_JSON_VALUE*/ consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createRes(@Valid @RequestBody Reservations reservation, BindingResult bindingResult)
             throws BindingException, DuplicateException {
 
@@ -100,15 +125,15 @@ public class ReservationController {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
         responseNode.put("code", HttpStatus.OK.toString());
-        responseNode.put("message", String.format("Inserimento Prenotazione con id -> "+reservation.getId()+" eseguito con successo"));
+        responseNode.put("message", String.format("Inserimento Prenotazione con id -> " + reservation.getId() + " eseguito con successo"));
 
         return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.CREATED);
     }
 
     // modifica
-    @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT, produces = "application/json")
+    @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT, /*produces = "application/json"*/ consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InfoMsg> updateRes(@Valid @RequestBody Reservations reservation,
-            BindingResult bindingResult, @PathVariable("id") int id) throws BindingException, NotFoundException {
+                                             BindingResult bindingResult, @PathVariable("id") int id) throws BindingException, NotFoundException {
         System.out.println("Modifica utente con id -> %d" + id);
 
         ReservationDTO reservationDTO = reservationService.trovaReservationsPerId(reservation.getId());

@@ -18,7 +18,6 @@ public interface UserService {
 
     public void DelUser(UserDTO userDTO);
 
-
     public List<UserDTO> selezionaUtenti();
 
     public Users selezionaById2(int id);

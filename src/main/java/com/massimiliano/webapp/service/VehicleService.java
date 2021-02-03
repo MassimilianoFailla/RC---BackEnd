@@ -9,21 +9,21 @@ import org.springframework.stereotype.Service;
 @Service
 public interface VehicleService {
 
-   public List<VehicleDTO> selezionaVeicoli();
+    public List<VehicleDTO> selezionaVeicoli();
 
-   public void InsVehicle(Vehicles vehicle);
+    public void InsVehicle(Vehicles vehicle);
 
-   public void DelVeh(VehicleDTO veicoloDto);
-   
-   public VehicleDTO trovaById(int id);
+    public void DelVeh(VehicleDTO veicoloDto);
 
-   public Vehicles trovaById2(int id);
+    public VehicleDTO trovaById(int id);
 
-   public VehicleDTO trovaPerTarga(String targa);
+    public Vehicles trovaById2(int id);
 
-   public List<Vehicles> trovaPerModello(String modello);
+    public VehicleDTO trovaPerTarga(String targa);
 
-   public List<Vehicles> trovaPerCasaCostruttrice(String casaCostruttrice);
+    public List<Vehicles> trovaPerModello(String modello);
+
+    public List<Vehicles> trovaPerCasaCostruttrice(String casaCostruttrice);
 
    public List<Vehicles> trovaPerAnnoImmatricolazione(String annoImmatricolazione);
 

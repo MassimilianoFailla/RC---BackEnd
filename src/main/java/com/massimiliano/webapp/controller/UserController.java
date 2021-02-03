@@ -1,16 +1,11 @@
 package com.massimiliano.webapp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 
-import com.massimiliano.webapp.dtos.VehicleDTO;
-import com.massimiliano.webapp.entity.Vehicles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.context.i18n.LocaleContextHolder;
-// import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +20,7 @@ import com.massimiliano.webapp.exception.BindingException;
 import com.massimiliano.webapp.exception.DuplicateException;
 import com.massimiliano.webapp.exception.NotFoundException;
 import com.massimiliano.webapp.service.UserService;
+import com.massimiliano.webapp.service.JwtUserDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -40,6 +36,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtUserDetailsService jwtService;
+
     // @Autowired
     // private ResourceBundleMessageSource errMessage;
 
@@ -54,18 +53,32 @@ public class UserController {
 
     }
 
+    // trovare un utente per username
+    @GetMapping(value = "/user/{username}", produces = "application/json")
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable("username") String username) throws NotFoundException {
+
+        UserDTO userDto = userService.trovaPerUsername(username);
+        return new ResponseEntity<UserDTO>(userDto, new HttpHeaders(), HttpStatus.OK);
+
+    }
+
     // trovare un utente per id
     @GetMapping(value = "/user-id/{id}", produces = "application/json")
     public ResponseEntity<UserDTO> geUserById(@PathVariable("id") int id) throws NotFoundException {
+
         logger.info("Visualizzazione utente con id -> %d", +id);
+
         UserDTO user = userService.selezionaById(id);
+
         return new ResponseEntity<UserDTO>(user, new HttpHeaders(), HttpStatus.OK);
     }
 
     // trovare un utente per role
     @GetMapping(value = "/user-role/{role}", produces = "application/json")
     public ResponseEntity<List<UserDTO>> geUserByRole(@PathVariable("role") String role) throws NotFoundException {
+
         List<UserDTO> userList = userService.selezionaUtentiByRole(role);
+
         return new ResponseEntity<List<UserDTO>>(userList, new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -88,12 +101,13 @@ public class UserController {
     @PostMapping(value = "/inserisci", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createArt(@Valid @RequestBody Users user, BindingResult bindingResult)
             throws BindingException, DuplicateException {
+
         logger.info("Salvo l'utente con id " + user.getId());
 
         UserDTO userDTO = userService.selezionaById(user.getId());
 
         if (userDTO != null) {
-            String MsgErr = String.format("Utente con id -> " +user.getId()+ " presente! - Impossibile inserire!",
+            String MsgErr = String.format("Utente con id -> " + user.getId() + " presente! - Impossibile inserire!",
                     user.getId());
             logger.warn(MsgErr);
             throw new DuplicateException(MsgErr);
@@ -101,6 +115,7 @@ public class UserController {
 
         logger.info("hai salvato l'utente\n\n\n\n\n\n\n");
 
+        // sistemare questo insert user in modo tale che sia un dto
         userService.InsUser(user);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseNode = mapper.createObjectNode();
@@ -110,7 +125,7 @@ public class UserController {
 
     }
 
-    // vecchio modifica
+    // vecchio modifica+
     // modifica
     @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<InfoMsg> updateUsr(@Valid @RequestBody Users user, @PathVariable("id") int id, BindingResult bindingResult)
@@ -122,14 +137,14 @@ public class UserController {
 
         if (userDTO == null) {
             String MsgErr = String.format(
-                    "L'utente con id -> "+user.getId()+" non è presente! " + "Impossibile modificare");
+                    "L'utente con id -> " + user.getId() + " non è presente! " + "Impossibile modificare");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
 
         userService.InsUser(user);
         String code = HttpStatus.OK.toString();
-        String message = String.format("Modifica utente con id -> " +user.getId()+ " eseguita Con Successo");
+        String message = String.format("Modifica utente con id -> " + user.getId() + " eseguita Con Successo");
         return new ResponseEntity<InfoMsg>(new InfoMsg(code, message), HttpStatus.CREATED);
     }
 
@@ -142,7 +157,7 @@ public class UserController {
         System.out.println(id);
         UserDTO userDTO = userService.selezionaById(id);
         if (userDTO == null) {
-            String MsgErr = String.format("L'utente con id -> " +id +"non presente! ");
+            String MsgErr = String.format("L'utente con id -> " + id + "non presente! ");
             logger.warn(MsgErr);
             throw new NotFoundException(MsgErr);
         }
