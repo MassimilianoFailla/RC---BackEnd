@@ -13,8 +13,6 @@ public class UserDTO {
     private String nome, cognome;
     private Date dataNascita;
     private String codiceFiscale, email, username, password, role;
-    private List<Reservations> listaPrenotazioni;
-
 
     public int getId() {
         return id;
@@ -88,11 +86,5 @@ public class UserDTO {
         this.role = role;
     }
 
-    public List<Reservations> getListaPrenotazioni() {
-        return listaPrenotazioni;
-    }
 
-    public void setListaPrenotazioni(List<Reservations> listaPrenotazioni) {
-        this.listaPrenotazioni = listaPrenotazioni;
-    }
 }

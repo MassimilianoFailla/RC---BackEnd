@@ -15,6 +15,7 @@ public class ReservationDTO {
     private boolean approvazione;
 
     // possono servire per far vedere direttamente tutto l'oggetto utente o veicolo
-    private Users utente;
-    private Vehicles veicolo;
+    private UserDTO utente = new UserDTO();
+    private VehicleDTO veicolo = new VehicleDTO();
+
 }

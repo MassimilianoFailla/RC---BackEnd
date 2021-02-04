@@ -83,18 +83,18 @@ public class UserController {
     }
 
     // trovare un utente per nome
-    @GetMapping(value = "/user-name/{nome}", produces = "application/json")
-    public ResponseEntity<List<UserDTO>> geUserByName(@PathVariable("nome") String nome) throws NotFoundException {
+    @GetMapping(value = "/username/{username}", produces = "application/json")
+    public ResponseEntity<UserDTO> geUserByUserame(@PathVariable("username") String username) throws NotFoundException {
 
-        logger.info("****** Otteniamo l'utente con nome " + nome + " *******");
-        List<UserDTO> userList = userService.trovaPerNome(nome.toUpperCase() + "%");
+        logger.info("****** Otteniamo l'utente con nome " + username + " *******");
+        UserDTO userDTO = userService.trovaPerUsername(username.toUpperCase() + "%");
 
-        if (userList == null) {
-            String errMsg = String.format("Non è stato trovato alcun utente con questo nome -> %s", nome);
+        if (userDTO == null) {
+            String errMsg = String.format("Non è stato trovato alcun utente con questo username -> %s", username);
             logger.warn(errMsg);
             throw new NotFoundException(errMsg);
         } else
-            return new ResponseEntity<List<UserDTO>>(userList, HttpStatus.OK);
+            return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
     }
 
     // inserimento
@@ -125,7 +125,6 @@ public class UserController {
 
     }
 
-    // vecchio modifica+
     // modifica
     @RequestMapping(value = "/modifica/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<InfoMsg> updateUsr(@Valid @RequestBody Users user, @PathVariable("id") int id, BindingResult bindingResult)

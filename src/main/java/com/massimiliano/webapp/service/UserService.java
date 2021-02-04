@@ -10,10 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
 
-    // inserire le operazioni da eseguire
-
-    //    public void InsUser(UserDTO userDto);
-
     public void InsUser(Users user);
 
     public void DelUser(UserDTO userDTO);

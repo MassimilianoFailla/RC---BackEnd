@@ -50,13 +50,13 @@ public class Users implements Serializable {
     @Column(name = "role")
     private String role;
 
-//    @JsonBackReference
-//    @OneToMany(mappedBy = "utente", fetch = FetchType.LAZY)
-//    private List<Reservations> listaPrenotazioni;
-//
-//    public List<Reservations> getPrenotazione() {
-//        return listaPrenotazioni;
-//    }
+    @JsonBackReference
+    @OneToMany(mappedBy = "utente", fetch = FetchType.LAZY)
+    private List<Reservations> listaPrenotazioni;
+
+    public List<Reservations> getPrenotazione() {
+        return listaPrenotazioni;
+    }
 
     public Users() {
 

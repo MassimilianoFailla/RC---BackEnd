@@ -4,13 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -32,12 +28,12 @@ public class Reservations implements Serializable {
     @Column(name = "dataFine", columnDefinition = "TIMESTAMP")
     private Date dataFine;
 
-    //    @JsonManagedReference
+//    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "idUtente", referencedColumnName = "id")
     private Users utente;
 
-    //    @JsonManagedReference
+//    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "targa", referencedColumnName = "targa")
     private Vehicles veicolo;

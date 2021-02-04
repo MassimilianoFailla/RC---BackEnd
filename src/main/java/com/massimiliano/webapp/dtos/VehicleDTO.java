@@ -10,4 +10,5 @@ public class VehicleDTO {
     private int id;
     private Date annoImmatricolazione;
     private String casaCostruttrice, modello, targa, tipologia;
+
 }

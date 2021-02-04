@@ -17,10 +17,7 @@ public interface ReservationService {
 
     public Reservations trovaReservationsPerId2(int id);
 
-    public List<Reservations> trovaPrenotazioniPerIdUtente(int idUtente);
+    public List<ReservationDTO> trovaPrenotazioniPerIdUtente(int idUtente);
 
-    // restituisce la lista delle prenotazioni in dto
-//    public List<ReservationDTO> selezionaTutti();
-
-    public List<Reservations> selezionaTutti();
+    public List<ReservationDTO> selezionaTutti();
 }

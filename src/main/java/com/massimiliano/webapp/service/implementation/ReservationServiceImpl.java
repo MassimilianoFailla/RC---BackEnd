@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service // notazione di servizio
 @Transactional(readOnly = true) // 'readOnly = true' -> notazione per tutte le query, che siano sotto
-// transazione
 public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
@@ -42,37 +41,28 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservations> trovaPrenotazioniPerIdUtente(int idUtente) {
+    public List<ReservationDTO> trovaPrenotazioniPerIdUtente(int idUtente) {
 
-        return reservationRepository.selByIdUserLike(idUtente);
+        List<ReservationDTO> resListDTO = new ArrayList<ReservationDTO>();
+        List<Reservations> list = reservationRepository.selByIdUserLike(idUtente);
+
+        for(int i = 0; i < list.size(); i++){
+            ReservationDTO provaDTO = modelMapper.map(list.get(i), ReservationDTO.class);
+            resListDTO.add(provaDTO);
+        }
+
+        return resListDTO;
     }
 
-    // restituisce la lista delle prenotazioni in formato dto
-//    @Override
-//    public List<ReservationDTO> selezionaTutti() {
-//
-//        List<ReservationDTO> resList = new ArrayList<ReservationDTO>();
-//        List<Reservations> list = reservationRepository.findAll();
-//
-//        for (int i = 0; i < list.size(); i++) {
-//            ReservationDTO provaDTO = modelMapper.map(list.get(i), ReservationDTO.class);
-//            resList.add(provaDTO);
-//        }
-//
-//        return resList;
-//    }
-
-
-    // restituisce le prenotazioni in formato modello
     @Override
-    public List<Reservations> selezionaTutti() {
+    public List<ReservationDTO> selezionaTutti() {
 
-        List<Reservations> resList = new ArrayList<Reservations>();
+        List<ReservationDTO> resList = new ArrayList<ReservationDTO>();
         List<Reservations> list = reservationRepository.findAll();
 
         for (int i = 0; i < list.size(); i++) {
-            Reservations prova = modelMapper.map(list.get(i), Reservations.class);
-            resList.add(prova);
+            ReservationDTO provaDTO = modelMapper.map(list.get(i), ReservationDTO.class);
+            resList.add(provaDTO);
         }
 
         return resList;

@@ -38,13 +38,13 @@ public class Vehicles implements Serializable {
     @Column(name = "tipologia")
     private String tipologia;
 
-//    @JsonBackReference
-//    @OneToMany(mappedBy = "veicolo", fetch = FetchType.LAZY)
-//    private List<Reservations> listaPrenotazioni;
-//
-//    public List<Reservations> getListaPrenotazioni() {
-//        return listaPrenotazioni;
-//    }
+    @JsonBackReference
+    @OneToMany(mappedBy = "veicolo", fetch = FetchType.LAZY)
+    private List<Reservations> listaPrenotazioni;
+
+    public List<Reservations> getListaPrenotazioni() {
+        return listaPrenotazioni;
+    }
 
 
     public Vehicles() {
